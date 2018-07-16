@@ -15,5 +15,6 @@
         <mapping class="modelo.Articulo"/>
         <mapping class="modelo.Usuario"/>
         <mapping class="modelo.Like"/>
+        <mapping class="modelo.Lugar"/>
     </session-factory>
 </hibernate-configuration>

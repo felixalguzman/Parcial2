@@ -31,12 +31,11 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, Date fechaNacimiento, String ciudadActual, Set<Lugar> lugares) {
+    public Usuario(String nombre, String apellido, Date fechaNacimiento, String ciudadActual) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.fechaNacimiento = fechaNacimiento;
         this.ciudadActual = ciudadActual;
-        this.lugares = lugares;
     }
 
     public long getId() {
