@@ -1,4 +1,4 @@
-package servicios.hibernate;
+package servicios.db.hibernate;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
