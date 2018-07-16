@@ -19,7 +19,7 @@ public class Main {
         staticFiles.location("/templates");
 
 
-        new CRUD<Usuario>().save(new Usuario(1, "admin", "admin"));
+        new CRUD<Usuario>().save(new Usuario(1, "admin", "admin", lugaresStudio));
 
         new Rutas().manejoRutas();
 
