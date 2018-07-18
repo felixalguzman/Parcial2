@@ -2,6 +2,7 @@ package modelo;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +10,9 @@ import java.util.Set;
 @Entity
 public class Usuario implements Serializable {
 
-    @Id
+    private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
@@ -25,64 +28,34 @@ public class Usuario implements Serializable {
     @Column
     private String ciudadActual;
 
+    @Column
+    private Date fechaRegistro;
+
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Lugar> lugares = new HashSet<>();
+    private Set<Lugar> lugaresEstudio = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Lugar> lugaresTrabajo = new HashSet<>();
+
+    @OneToMany
+    private Set<Articulo> articulos = new HashSet<>();
+
+    @Column
+    private String lugarNacimiento;
+
+    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Set<Amigo> amigos = new HashSet<>();
+
+    @Column
+    private Blob fotoPerfil;
 
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, Date fechaNacimiento, String ciudadActual) {
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.fechaNacimiento = fechaNacimiento;
-        this.ciudadActual = ciudadActual;
+    public Usuario(String admin, String s, Date from, String santiago) {
     }
 
-    public long getId() {
-        return id;
-    }
+   
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
-    public String getCiudadActual() {
-        return ciudadActual;
-    }
-
-    public void setCiudadActual(String ciudadActual) {
-        this.ciudadActual = ciudadActual;
-    }
-
-    public Set<Lugar> getLugares() {
-        return lugares;
-    }
-
-    public void setLugares(Set<Lugar> lugares) {
-        this.lugares = lugares;
-    }
+ 
 }

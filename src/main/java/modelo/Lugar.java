@@ -12,7 +12,7 @@ public class Lugar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
+    @Column(nullable = false)
     private String lugar;
 
     @Column
@@ -27,6 +27,9 @@ public class Lugar {
     @Enumerated(EnumType.STRING)
     @Column
     private TipoLugar tipoLugar;
+
+    @Column
+    private Date fechaCreacion;
 
     public Lugar() {
     }

@@ -1,5 +1,10 @@
 package modelo;
 
+import java.sql.Blob;
+import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,14 +14,20 @@ public class Articulo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
-    private String titulo;
-
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String cuerpo;
 
+    @ManyToOne
+    private Usuario usuario;
+
     @Column
-    private byte[] foto;
+    private Set<Blob> foto = new HashSet<>();
+
+    @Column
+    private Date fechaCreacion;
+
+
+    
 
 
 }

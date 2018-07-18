@@ -3,13 +3,10 @@ package servicios.db.hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
 
     private static final SessionFactory sessionFactory = buildSessionFactory();
-    private static ServiceRegistry serviceRegistry;
-
     /**
      * Funcion que contruye la sesion de hibernate para la interaccion con la base de datos
      * @return
@@ -17,7 +14,6 @@ public class HibernateUtil {
     private static SessionFactory buildSessionFactory(){
         SessionFactory sessionFactory = null;
         try{
-            ServiceRegistry serviceRegistry;
             Configuration configuration = new  Configuration();
             configuration.configure("/Hibernate/hibernate.cfg.xml");
             sessionFactory = configuration.buildSessionFactory();
