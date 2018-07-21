@@ -88,13 +88,14 @@ public class Usuario implements Serializable {
         this.admin = admin;
     }
 
-    public Usuario(String nombre, String apellido, String correo, String password, String username, Date from) {
+    public Usuario(String nombre, String apellido, String correo, String password, String username, Date from, boolean admin) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
         this.contrasena = password;
         this.username = username;
         this.fechaRegistro = from;
+        this.admin = admin;
     }
 
     public static long getSerialVersionUID() {

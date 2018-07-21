@@ -3,7 +3,10 @@ package servicios;
 import freemarker.template.Configuration;
 import freemarker.template.Version;
 import modelo.Usuario;
+import org.hibernate.Session;
+import org.jasypt.util.text.BasicTextEncryptor;
 import servicios.db.hibernate.CRUD;
+import servicios.db.hibernate.HibernateUtil;
 import spark.ModelAndView;
 import spark.Request;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -17,6 +20,8 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 
 public class Rutas {
+
+    private static final String pass = "parcial2";
 
     public void manejoRutas(){
 
@@ -46,7 +51,7 @@ public class Rutas {
             String username = request.queryParams("username");
 
 
-            Usuario usuario = new Usuario(nombre, apellido, correo, password, username, Date.from(Instant.now()));
+            Usuario usuario = new Usuario(nombre, apellido, correo, password, username, Date.from(Instant.now()), false);
 
             guardarUsuarioSesion(usuario, request);
 
@@ -62,24 +67,51 @@ public class Rutas {
 
             String username = request.queryParams("username");
             String contra = request.queryParams("password");
+            String recordar = request.queryParams("recordar");
 
             System.out.println(username + contra);
 
-            String sql = "select * from Usuario u where u.USERNAME ='" +username + "' and u.CONTRASENA ='" + contra+"'";
-            Usuario usuario = new CRUD<Usuario>().findOne(sql);
+            String sql = "from Usuario u where u.username = :username and u.contrasena = :pass";
+            Session session = HibernateUtil.getSession();
+
+
+            Usuario usuario = (Usuario) session.createQuery(sql).setParameter("username", username).setParameter("pass", contra).uniqueResult();
 
             if (usuario != null){
 
                 request.session(true);
                 guardarUsuarioSesion(usuario, request);
 
+                if (recordar != null){
+
+                    BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+                    textEncryptor.setPassword(pass);
+
+                    String usernameEncrypt = textEncryptor.encrypt(username);
+                    String passEncrypt = textEncryptor.encrypt(contra);
+
+                    response.cookie("/", "login", username + "," + passEncrypt, 604800, false);
+
+                }
+
                 response.redirect("/inicio");
             }
 
 
 
-            return new ModelAndView(attributes, "404.ftl");
+            return new ModelAndView(attributes, "error.ftl");
         }, freeMarkerEngine);
+
+
+        get("/logOut", (request, response) -> {
+
+            spark.Session session = request.session(true);
+            session.invalidate();
+            response.removeCookie("/", "login");
+            response.redirect("/");
+
+            return "";
+        });
 
 
     }

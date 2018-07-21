@@ -1,9 +1,12 @@
 package main;
 
 import modelo.Usuario;
+import org.hibernate.Session;
+import servicios.Filtros;
 import servicios.Rutas;
 import servicios.db.BootstrapService;
 import servicios.db.hibernate.CRUD;
+import servicios.db.hibernate.HibernateUtil;
 
 import java.sql.SQLException;
 import java.time.Instant;
@@ -21,11 +24,20 @@ public class Main {
         staticFiles.location("/templates");
 
 
-         new CRUD<Usuario>().save(new Usuario("admin", "admin", "felixlvl@gmail.com", "1234", "admin", Date.from(Instant.now())));
+        Session session = HibernateUtil.getSession();
+
+        Usuario admin = (Usuario) session.createQuery("from Usuario u where u.admin = :admin").setParameter("admin", true).uniqueResult();
+
+        if (admin == null){
+            new CRUD<Usuario>().save(new Usuario("admin", "admin", "felixlvl@gmail.com", "1234", "admin", Date.from(Instant.now()), true));
+
+        }
+
 
 
 
         new Rutas().manejoRutas();
+        new Filtros().aplicarFiltros();
 
     }
 }

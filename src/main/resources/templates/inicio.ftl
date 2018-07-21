@@ -34,7 +34,7 @@
 <body>    
    
     <!-- Header_Area --> 
-  <#include "menu.html">
+  <#include "menu.ftl">
     <!-- End  Header_Area --> 
     
     <!-- Tranding-select and banner Area -->  
@@ -46,7 +46,7 @@
     <div class="banner_area">
         <img src="../images/banner.jpg" alt="" class="banner_img">
     </div>
-    <!-- End Tranding Area -->   
+    <!-- End Trending Area -->   
     
     <!-- Min Container area -->
     <section class="min_container min_pages">
@@ -794,9 +794,71 @@
             © 2018 <a href="#">Open List</a>. All rights reserved.
         </div>
     </footer> 
-    <!-- End Footer area --> 
-    
-        
+    <!-- End Footer area -->
+
+
+    <!-- Add post poup area -->
+    <div id="post_modal" class="add_post modal">
+        <h2>Create A New Post</h2>
+        <form class="input_group">
+            <div class="input-field">
+                <input  type="text" class="validate" placeholder="Add a tittle">
+                <textarea class="textarea" placeholder="Add some description"></textarea>
+            </div>
+            <div class="upload_photo row">
+                <ul class="tabs tab_nav">
+                    <li class="tab col s6"><a href="#photo"><i class="ion-ios-camera"></i>Add Photo</a></li>
+                    <li class="tab col s6"><a class="" href="#video"><i class="ion-ios-videocam"></i>Add video</a></li>
+                </ul>
+                <div id="photo" class="col s12 tabs_content">
+                    <div class="photo_u">
+                        <img src="images/upload.png" alt="">
+                        <h4>Select files to upload <small>or drag &amp; drop files</small></h4>
+                    </div>
+                </div>
+                <div id="video" class="col s12 tabs_content">
+                    <div class="photo_u">
+                        <img src="images/upload.png" alt="">
+                        <h4>Select files to upload <small>or drag &amp; drop files</small></h4>
+                    </div>
+                </div>
+            </div>
+            <div class="input-field col s12 select_option">
+                <select>
+                    <option value="" disabled selected>Choose a category</option>
+                    <option value="1">Option 1</option>
+                    <option value="2">Option 2</option>
+                    <option value="2">Option 2</option>
+                    <option value="2">Option 2</option>
+                </select>
+
+                <div class="chips chips-placeholder" data-index="0" data-initialized="true">
+                    <input class="input" placeholder="Enter a tag">
+                </div>
+            </div>
+            <div class="input-field add_link">
+                <input  type="text" class="validate" placeholder="Add a link">
+                <span>optional</span>
+            </div>
+            <div class="yes_no">
+                <h4>Anyone can submit?</h4>
+                <div class="flipswitch"></div>
+            </div>
+            <div class="row submit_btn_area">
+                <div class="col s6">
+                    <button class="waves-effect"><i class="ion-folder"></i>Save draft</button>
+                </div>
+                <div class="col s6">
+                    <button class="waves-effect col s6"><i class="ion-eye"></i>Preview post</button>
+                </div>
+                <div class="col s12">
+                    <button class="waves-effect publish">Publish</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- End Add post poup area -->
+
     <!-- Popup area --> 
     <div id="modal2" class="login_popup_aera modal">
         <div class="login_popup_row">
@@ -832,7 +894,7 @@
                     <input type="password" class="validate" name="password" placeholder="Password"> 
                 </div>
                 <p>
-                    <input type="checkbox" id="test2" />
+                    <input type="checkbox" id="test2" name="recordar" />
                     <label for="test2">Remember me <a href="#">Forget password?</a></label>
                 </p>
                 <button class="waves-effect">SIgn in</button>
