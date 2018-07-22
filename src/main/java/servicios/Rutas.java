@@ -2,6 +2,8 @@ package servicios;
 
 import freemarker.template.Configuration;
 import freemarker.template.Version;
+import modelo.Articulo;
+import modelo.Lugar;
 import modelo.Usuario;
 import org.hibernate.Session;
 import org.jasypt.util.text.BasicTextEncryptor;
@@ -15,6 +17,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -56,7 +59,50 @@ public class Rutas {
             guardarUsuarioSesion(usuario, request);
 
             new CRUD<Usuario>().save(usuario);
-            response.redirect("/inicio");
+            response.redirect("/terminarPerfil");
+
+            return "";
+        });
+
+        post("/publicar", (request, response) -> {
+
+            String descripcion = request.queryParams("descripcion");
+            String foto = request.queryParams("file");
+            String[] etiquetas = request.queryParamsValues("chips");
+
+            Articulo articulo = new Articulo(descripcion, obtenerUsuarioSesion(request), Date.from(Instant.now()));
+            new CRUD<Articulo>().save(articulo);
+
+
+            return "";
+        });
+
+        get("/terminarPerfil", (request, response) -> {
+
+            Map<String, Object> attributes = new HashMap<>();
+
+            attributes.put("usuario", obtenerUsuarioSesion(request));
+
+            return new ModelAndView(attributes, "terminarPerfil.ftl");
+        }, freeMarkerEngine);
+
+        post("/terminar", (request, response) -> {
+
+            String fechaNacimiento = request.queryParams("fechaNacimiento");
+            String lugarNacimiento = request.queryParams("lugarNacimiento");
+            String ciudad = request.queryParams("ciudad");
+
+            Usuario usuario = obtenerUsuarioSesion(request);
+
+            usuario.setFechaNacimiento(Date.valueOf(fechaNacimiento));
+
+            usuario.setLugarNacimiento(lugarNacimiento);
+            usuario.setCiudadActual(ciudad);
+
+            new CRUD<Usuario>().update(usuario);
+
+            response.redirect("/");
+
 
             return "";
         });

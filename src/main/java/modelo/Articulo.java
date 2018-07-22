@@ -1,13 +1,11 @@
 package modelo;
 
-import java.sql.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Articulo {
@@ -25,13 +23,24 @@ public class Articulo {
     @Column
     private Date fechaCreacion;
 
+    @OneToMany(mappedBy = "articulo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Etiqueta> etiquetaSet = new HashSet<>();
+
     public Articulo() {
+    }
+
+    public Articulo(String cuerpo, Usuario usuario, Date fechaCreacion, Set<Etiqueta> etiquetaSet) {
+        this.cuerpo = cuerpo;
+        this.usuario = usuario;
+        this.fechaCreacion = fechaCreacion;
+        this.etiquetaSet = etiquetaSet;
     }
 
     public Articulo(String cuerpo, Usuario usuario, Date fechaCreacion) {
         this.cuerpo = cuerpo;
         this.usuario = usuario;
         this.fechaCreacion = fechaCreacion;
+
     }
 
     public long getId() {
@@ -64,5 +73,13 @@ public class Articulo {
 
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public Set<Etiqueta> getEtiquetaSet() {
+        return etiquetaSet;
+    }
+
+    public void setEtiquetaSet(Set<Etiqueta> etiquetaSet) {
+        this.etiquetaSet = etiquetaSet;
     }
 }
