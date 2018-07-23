@@ -2,8 +2,6 @@ package main;
 
 import modelo.Usuario;
 import org.hibernate.Session;
-import servicios.Filtros;
-import servicios.Rutas;
 import servicios.db.BootstrapService;
 import servicios.db.hibernate.CRUD;
 import servicios.db.hibernate.HibernateUtil;
@@ -33,6 +31,7 @@ public class Main {
 
         }
 
+        session.close();
 
 
 

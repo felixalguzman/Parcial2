@@ -14,6 +14,9 @@ public class Articulo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column
+    private String titulo;
+
     @Column(columnDefinition = "TEXT")
     private String cuerpo;
 
@@ -23,17 +26,21 @@ public class Articulo {
     @Column
     private Date fechaCreacion;
 
-    @OneToMany(mappedBy = "articulo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Column
+    private  boolean publico;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Etiqueta> etiquetaSet = new HashSet<>();
 
     public Articulo() {
     }
 
-    public Articulo(String cuerpo, Usuario usuario, Date fechaCreacion, Set<Etiqueta> etiquetaSet) {
+    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico) {
+        this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.usuario = usuario;
         this.fechaCreacion = fechaCreacion;
-        this.etiquetaSet = etiquetaSet;
+        this.publico = publico;
     }
 
     public Articulo(String cuerpo, Usuario usuario, Date fechaCreacion) {
@@ -81,5 +88,21 @@ public class Articulo {
 
     public void setEtiquetaSet(Set<Etiqueta> etiquetaSet) {
         this.etiquetaSet = etiquetaSet;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
+
+    public boolean isPublico() {
+        return publico;
+    }
+
+    public void setPublico(boolean publico) {
+        this.publico = publico;
     }
 }

@@ -1,6 +1,6 @@
 <nav class="header_area header_2">
     <div class="nav-wrapper">
-        <a href="/inicio" class="brand-logo"><img src="images/logo.png" alt=""></a>
+        <a href="/inicio" class="brand-logo"><img src="../images/logo.png" alt=""></a>
         <ul class="left_menu hide-on-med-and-down">
             <!-- <li><a href="#">About membership</a></li>  -->
         </ul>
