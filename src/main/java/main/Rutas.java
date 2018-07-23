@@ -5,6 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.Version;
 import modelo.Articulo;
 import modelo.Etiqueta;
+import modelo.Mencion;
 import modelo.Usuario;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -54,7 +55,7 @@ public class Rutas {
 
                     for (Usuario usuario: usuarioList) {
 
-                        usuarioRests.add(new UsuarioRest(usuario.getNombre(), usuario.getApellido(), usuario.getCorreo()));
+                        usuarioRests.add(new UsuarioRest(usuario.getNombre(), usuario.getApellido(), usuario.getUsername()));
 
                     }
 
@@ -66,10 +67,39 @@ public class Rutas {
         get("/inicio", (request, response) -> {
 
             Map<String, Object> attributes = new HashMap<>();
+            Map<String, String> cookies = request.cookies();
 
+            String[] llaveValor = new String[2];
+            request.cookie("login");
 
+            for (String key : cookies.keySet()) {
+                System.out.println("llave: " + key + " valor: " + cookies.get(key));
+                llaveValor = cookies.get(key).split(",");
 
+            }
 
+            if (llaveValor.length > 1 && obtenerUsuarioSesion(request) == null) {
+
+                BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+                textEncryptor.setPassword(pass);
+
+                System.out.println(llaveValor[0] + " contra: " + llaveValor[1]);
+                String user = textEncryptor.decrypt(llaveValor[0]);
+                String contra = textEncryptor.decrypt(llaveValor[1]);
+
+                Session session = HibernateUtil.getSession();
+
+                Usuario usuario1 = (Usuario) session.createQuery("select u from Usuario u where u.username = :user and u.contrasena = :contra")
+                        .setParameter("user", user)
+                        .setParameter("contra", contra)
+                        .uniqueResult();
+                if (usuario1 != null) {
+
+                    guardarUsuarioSesion(usuario1, request);
+                    request.session(true);
+                    response.redirect("/inicio");
+                }
+            }
 
             attributes.put("usuario", obtenerUsuarioSesion(request));
 
@@ -105,10 +135,35 @@ public class Rutas {
             String etiquetas = request.queryParams("etiquetas");
             String publico = request.queryParams("publico");
 
+            Articulo articulo = new Articulo(titulo, descripcion, obtenerUsuarioSesion(request), Date.from(Instant.now()), publico != null);
+            Session session = HibernateUtil.getSession();
+
 
             List<String> etiqueta = Arrays.asList(etiquetas.split(","));
+            List<String> texto = Arrays.asList(descripcion.split(" "));
 
-            Articulo articulo = new Articulo(titulo, descripcion, obtenerUsuarioSesion(request), Date.from(Instant.now()), publico != null);
+            Set<Mencion> mencionSet = new HashSet<>();
+
+            for (String s: texto) {
+
+                if (s.startsWith("@")){
+                    String user = s.replace('@', ' ');
+                    System.out.println("username de usuario:" + user);
+                    Usuario usuario = (Usuario) session.createQuery("select u from Usuario u where u.username = :user").setParameter("user",user ).uniqueResult();
+                    if (usuario != null){
+                        System.out.println("usuario " + usuario.getId() + " " + usuario.getNombre());
+                        mencionSet.add(new Mencion(obtenerUsuarioSesion(request), usuario));
+                    }
+
+
+                }
+
+            }
+
+            session.close();
+            articulo.setMencions(mencionSet);
+
+
 
             Set<Etiqueta> etiquetaSet = new HashSet<>();
 
@@ -154,11 +209,12 @@ public class Rutas {
             Long cant = (Long) criteriaCount.uniqueResult();
 
 
+
             List<Articulo> articulos = query.list();
 
             attributes.put("list", articulos);
             attributes.put("actual", pagina);
-            attributes.put("paginas", cant);
+            attributes.put("paginas", Math.ceil(cant / 5f));
             attributes.put("usuario", obtenerUsuarioSesion(request));
 
 

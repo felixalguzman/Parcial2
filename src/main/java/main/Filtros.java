@@ -1,5 +1,7 @@
 package main;
 
+import org.jasypt.util.text.StrongTextEncryptor;
+
 import static spark.Spark.*;
 
 /**
@@ -11,8 +13,11 @@ public class Filtros {
         
         before("/", (request, response) -> {
 
+
             response.redirect("/inicio");
 
         });
+
+
     }
 }

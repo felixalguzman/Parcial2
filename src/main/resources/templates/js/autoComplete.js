@@ -1,6 +1,6 @@
 
 $(function(){
-    $.fn.atwho.debug = true
+    $.fn.atwho.debug = true;
     var emojis = [
         "smile", "iphone", "girl", "smiley", "heart", "kiss", "copyright", "coffee",
         "a", "ab", "airplane", "alien", "ambulance", "angel", "anger", "angry",
@@ -21,26 +21,27 @@ $(function(){
         "white_square", "wind_chime", "wink", "wink2", "wolf", "woman",
         "womans_hat", "womens", "x", "yellow_heart", "zap", "zzz", "+1",
         "-1"
-    ]
-    var jeremy = decodeURI("J%C3%A9r%C3%A9my") // Jérémy
+    ];
+    var jeremy = decodeURI("J%C3%A9r%C3%A9my") ;// Jérémy
 
     var emojis = $.map(emojis, function(value, i) {return {key: value, name:value}});
 
     var at_config = {
         at: "@",
         data: "http://localhost:4567/rest/usuarios/",
-        headerTpl: '<div class="atwho-header">Lista de Usuarios<small>↑&nbsp;↓&nbsp;</small></div>',
-        insertTpl: '@${nombre}',
-        displayTpl: "<li>${nombre} ${apellido} <small>${correo}</small></li>",
-        limit: 200
-    }
+        headerTpl: '<div class="atwho-header">Lista de Usuarios<small>&nbsp; ↑&nbsp; ↓&nbsp;</small></div>',
+        insertTpl: '@${usuario}',
+        displayTpl: "<li>${nombre} ${apellido} <small>${usuario}</small></li>",
+        limit: 200,
+        searchKey: "nombre"
+    };
     var emoji_config = {
         at: ":",
         data: emojis,
         displayTpl: "<li>${name} <img src='https://assets-cdn.github.com/images/icons/emoji/${key}.png'  height='20' width='20' /></li>",
         insertTpl: ':${key}:',
         delay: 400
-    }
+    };
     $inputor = $('#inputor').atwho(at_config).atwho(emoji_config);
     $inputor.caret('pos', 47);
     $inputor.focus().atwho('run');
@@ -48,16 +49,16 @@ $(function(){
     emoji_config.insertTpl = "<img src='https://assets-cdn.github.com/images/icons/emoji/${name}.png'  height='20' width='20' />"
     $('#editable').atwho(at_config).atwho(emoji_config);
 
-    ifr = $('#iframe1')[0]
-    doc = ifr.contentDocument || iframe.contentWindow.document
+    ifr = $('#iframe1')[0];
+    doc = ifr.contentDocument || iframe.contentWindow.document;
     if ((ifrBody = doc.body) == null) {
         // For IE
         doc.write("<body></body>")
         ifrBody = doc.body
     }
-    ifrBody.contentEditable = true
-    ifrBody.id = 'ifrBody'
-    ifrBody.innerHTML = 'For <strong>WYSIWYG</strong> which using <strong>iframe</strong> such as <strong>ckeditor</strong>'
+    ifrBody.contentEditable = true;
+    ifrBody.id = 'ifrBody';
+    ifrBody.innerHTML = 'For <strong>WYSIWYG</strong> which using <strong>iframe</strong> such as <strong>ckeditor</strong>';
     $(ifrBody).atwho('setIframe', ifr).atwho(at_config)
 });
 

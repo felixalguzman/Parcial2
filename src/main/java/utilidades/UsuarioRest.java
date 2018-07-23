@@ -4,15 +4,15 @@ public class UsuarioRest {
 
     private String nombre;
     private String apellido;
-    private String correo;
+    private String usuario;
 
     public UsuarioRest() {
     }
 
-    public UsuarioRest(String nombre, String apellido, String correo) {
+    public UsuarioRest(String nombre, String apellido, String usuario) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.correo = correo;
+        this.usuario = usuario;
     }
 
     public String getNombre() {
@@ -31,11 +31,11 @@ public class UsuarioRest {
         this.apellido = apellido;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 }
