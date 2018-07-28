@@ -31,7 +31,7 @@
 
 
     <!--Theme Styles CSS-->
-	<link rel="stylesheet" href="../css/style.css" media="all" /> 
+	<link rel="stylesheet" href="../css/style.css" media="all" />
 
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// --> 
     <!--[if lt IE 9]>

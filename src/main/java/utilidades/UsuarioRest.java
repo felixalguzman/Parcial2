@@ -2,6 +2,7 @@ package utilidades;
 
 public class UsuarioRest {
 
+    private long id;
     private String nombre;
     private String apellido;
     private String usuario;
@@ -9,10 +10,19 @@ public class UsuarioRest {
     public UsuarioRest() {
     }
 
-    public UsuarioRest(String nombre, String apellido, String usuario) {
+    public UsuarioRest(long id, String nombre, String apellido, String usuario) {
+        this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.usuario = usuario;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNombre() {

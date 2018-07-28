@@ -16,6 +16,9 @@ public class Notificacion {
     @Column
     private TipoNotificacion tipoNotificacion;
 
+    @ManyToOne
+    private Articulo articulo;
+
     @OneToOne
     private Usuario origen;
 
@@ -31,8 +34,9 @@ public class Notificacion {
     public Notificacion() {
     }
 
-    public Notificacion(TipoNotificacion tipoNotificacion, Usuario origen, Usuario destino, Date fecha, boolean leido) {
+    public Notificacion(TipoNotificacion tipoNotificacion, Articulo articulo, Usuario origen, Usuario destino, Date fecha, boolean leido) {
         this.tipoNotificacion = tipoNotificacion;
+        this.articulo = articulo;
         this.origen = origen;
         this.destino = destino;
         this.fecha = fecha;
@@ -85,5 +89,13 @@ public class Notificacion {
 
     public void setLeido(boolean leido) {
         this.leido = leido;
+    }
+
+    public Articulo getArticulo() {
+        return articulo;
+    }
+
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
     }
 }

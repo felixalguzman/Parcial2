@@ -20,7 +20,6 @@
         <mapping class="modelo.Comentario"/>
         <mapping class="modelo.Etiqueta"/>
         <mapping class="modelo.Grupo"/>
-        <mapping class="modelo.Mencion"/>
         <mapping class="modelo.Notificacion"/>
     </session-factory>
 </hibernate-configuration>

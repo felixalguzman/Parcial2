@@ -1,9 +1,9 @@
-<link rel="stylesheet" href="../vendors/check-button/switch.css">
+<#--<link rel="stylesheet" href="../vendors/check-button/switch.css">-->
 <script type="text/javascript" src="http://ichord.github.io/Caret.js/src/jquery.caret.js"></script>
 <script type="text/javascript" src="../dist/js/jquery.atwho.js"></script>
-<link rel="stylesheet" href="../dist/css/jquery.atwho.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/at.js/1.4.0/css/jquery.atwho.min.css">
 <script type="text/javascript" src="../js/autoComplete.js"></script>
-
+<script type="text/javascript" src="../js/cargarArchivo.js"></script>
 
 
 <div id="post_modal" class="add_post modal">
@@ -12,7 +12,7 @@
         <div class="input-field">
             <input type="text" class="validate" name="titulo" placeholder="Titulo del post">
             <textarea class="textarea inputor" id="inputor" name="descripcion" placeholder="Descripción del post"
-                      required></textarea>
+            ></textarea>
         </div>
         <div class="upload_photo row">
             <ul class="tabs tab_nav">
@@ -21,12 +21,12 @@
             <div id="photo" class="col s12 tabs_content">
                 <div class="photo_u upload-image-preview">
                     <img id="eje" src="images/upload.png" alt="">
-                    <h4>Selecciona una foto
+                    <h4 id="titulo">Selecciona una foto
                     <#--<small>or drag &amp; drop files</small>-->
                     </h4>
                 </div>
                 <div class="input-field col s12">
-                    <input type='file' id="imgInp" name="file" class="waves-effect" onchange="readURL(this);"/>
+                    <input type='file' id="archivo" name="file" class="waves-effect"/>
 
                 </div>
             </div>

@@ -28,17 +28,8 @@
                             class="ion-ios-bell-outline"></i><b class="n-number">5</b></a>
                     <ul id="dropdown2" class="dropdown-content">
                         <li class="hed_notic">Notifications <span>Mark all as read <i class="ion-ios-gear-outline"></i></span></li>
-                        <li>
-                            <a href="#">
-                                <div class="media">
-                                    <img src="images/profile-6.jpg" alt="" class="circle responsive-img">
-                                    <div class="media_body">
-                                        <p><b>Dan Fisher</b> submitted a new photo  to a <small>post</small> post you are following.</p>
-                                        <h6>5 Minute ago</h6>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
+
+                        <#include "notificacion.ftl">
 
 
 

@@ -5,7 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.Version;
 import modelo.Articulo;
 import modelo.Etiqueta;
-import modelo.Mencion;
+import modelo.Notificacion;
 import modelo.Usuario;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
@@ -16,6 +16,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 import servicios.db.hibernate.CRUD;
 import servicios.db.hibernate.HibernateUtil;
+import servicios.enums.TipoNotificacion;
 import spark.ModelAndView;
 import spark.Request;
 import spark.template.freemarker.FreeMarkerEngine;
@@ -28,9 +29,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
-import static spark.Spark.get;
-import static spark.Spark.path;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 public class Rutas {
 
@@ -53,9 +52,9 @@ public class Rutas {
 
                     List<UsuarioRest> usuarioRests = new ArrayList<>();
 
-                    for (Usuario usuario: usuarioList) {
+                    for (Usuario usuario : usuarioList) {
 
-                        usuarioRests.add(new UsuarioRest(usuario.getNombre(), usuario.getApellido(), usuario.getUsername()));
+                        usuarioRests.add(new UsuarioRest(usuario.getId(), usuario.getNombre(), usuario.getApellido(), usuario.getUsername()));
 
                     }
 
@@ -77,6 +76,7 @@ public class Rutas {
                 llaveValor = cookies.get(key).split(",");
 
             }
+            Session session = HibernateUtil.getSession();
 
             if (llaveValor.length > 1 && obtenerUsuarioSesion(request) == null) {
 
@@ -87,7 +87,6 @@ public class Rutas {
                 String user = textEncryptor.decrypt(llaveValor[0]);
                 String contra = textEncryptor.decrypt(llaveValor[1]);
 
-                Session session = HibernateUtil.getSession();
 
                 Usuario usuario1 = (Usuario) session.createQuery("select u from Usuario u where u.username = :user and u.contrasena = :contra")
                         .setParameter("user", user)
@@ -101,7 +100,21 @@ public class Rutas {
                 }
             }
 
-            attributes.put("usuario", obtenerUsuarioSesion(request));
+            Usuario usuario = obtenerUsuarioSesion(request);
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", usuario)
+                        .setParameter("leido", false)
+                        .setMaxResults(7).list();
+
+                System.out.println("size: " + list.size());
+                attributes.put("list2", list);
+            }
+
+            session.close();
+
+            attributes.put("usuario", usuario);
+
 
             return new ModelAndView(attributes, "inicio.ftl");
         }, freeMarkerEngine);
@@ -139,20 +152,24 @@ public class Rutas {
             Session session = HibernateUtil.getSession();
 
 
-            List<String> etiqueta = Arrays.asList(etiquetas.split(","));
-            List<String> texto = Arrays.asList(descripcion.split(" "));
+            String[] etiqueta = etiquetas.split(",");
+            String[] texto = descripcion.split(" ");
 
-            Set<Mencion> mencionSet = new HashSet<>();
+            Set<Notificacion> notificacionSet = new HashSet<>();
+            for (String s : texto) {
 
-            for (String s: texto) {
-
-                if (s.startsWith("@")){
+                if (s.startsWith("@")) {
                     String user = s.replace('@', ' ');
+                    user = user.trim();
                     System.out.println("username de usuario:" + user);
-                    Usuario usuario = (Usuario) session.createQuery("select u from Usuario u where u.username = :user").setParameter("user",user ).uniqueResult();
-                    if (usuario != null){
-                        System.out.println("usuario " + usuario.getId() + " " + usuario.getNombre());
-                        mencionSet.add(new Mencion(obtenerUsuarioSesion(request), usuario));
+                    Usuario usuario = (Usuario) session.createQuery("select u from Usuario u where u.username = :user").setParameter("user", user).uniqueResult();
+                    if (usuario != null) {
+//                        System.out.println("usuario " + usuario.getId() + " " + usuario.getNombre());
+
+                        Notificacion notificacion = new Notificacion(TipoNotificacion.MENCION, articulo, obtenerUsuarioSesion(request), usuario, Date.valueOf(LocalDate.now()), false);
+
+
+                        notificacionSet.add(notificacion);
                     }
 
 
@@ -161,8 +178,6 @@ public class Rutas {
             }
 
             session.close();
-            articulo.setMencions(mencionSet);
-
 
 
             Set<Etiqueta> etiquetaSet = new HashSet<>();
@@ -174,12 +189,16 @@ public class Rutas {
 
 
             articulo.setEtiquetaSet(etiquetaSet);
+            articulo.setNotificacionSet(notificacionSet);
 
             new CRUD<Articulo>().save(articulo);
 
             response.redirect("/");
             return "";
         });
+
+
+        get("/perfil/:id", (request, response) -> "llego");
 
         get("/inicio/:pag", (request, response) -> {
 
@@ -209,13 +228,23 @@ public class Rutas {
             Long cant = (Long) criteriaCount.uniqueResult();
 
 
-
             List<Articulo> articulos = query.list();
 
             attributes.put("list", articulos);
             attributes.put("actual", pagina);
             attributes.put("paginas", Math.ceil(cant / 5f));
             attributes.put("usuario", obtenerUsuarioSesion(request));
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("leido", false)
+                        .setMaxResults(7).list();
+
+                System.out.println("size: " + list.size());
+                attributes.put("list2", list);
+            }
+
+
 
 
             template.process(attributes, writer);
@@ -235,6 +264,18 @@ public class Rutas {
             DateTime inicio = new DateTime(articulo.getFechaCreacion());
             DateTime fin = new DateTime(Date.valueOf(LocalDate.now()));
 
+            Session session = HibernateUtil.getSession();
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("leido", false)
+                        .setMaxResults(7).list();
+
+
+                attributes.put("list2", list);
+            }
+
+            session.close();
 
             int min = Minutes.minutesBetween(fin, inicio).getMinutes() % 60;
 
@@ -289,7 +330,7 @@ public class Rutas {
 
             System.out.println(username + contra);
 
-            String sql = "from Usuario u where u.username = :username and u.contrasena = :pass";
+            String sql = "select u from Usuario u where u.username = :username and u.contrasena = :pass";
             Session session = HibernateUtil.getSession();
 
 
@@ -312,7 +353,7 @@ public class Rutas {
 
                 }
 
-                response.redirect("/inicio");
+                response.redirect("/");
             }
 
 

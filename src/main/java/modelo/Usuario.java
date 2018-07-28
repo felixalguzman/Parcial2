@@ -56,6 +56,9 @@ public class Usuario implements Serializable {
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Articulo> articulos = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<Notificacion> notificacion = new HashSet<>();
+
     @Column
     private String lugarNacimiento;
 
@@ -71,10 +74,11 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, String correo, String contrasena, Date fechaNacimiento, String ciudadActual, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, String lugarNacimiento, Set<Amigo> amigos, byte[] fotoPerfil, boolean admin) {
+    public Usuario(String nombre, String apellido, String correo, String username, String contrasena, Date fechaNacimiento, String ciudadActual, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, Set<Notificacion> notificacion, String lugarNacimiento, Set<Amigo> amigos, byte[] fotoPerfil, boolean admin) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
+        this.username = username;
         this.contrasena = contrasena;
         this.fechaNacimiento = fechaNacimiento;
         this.ciudadActual = ciudadActual;
@@ -82,6 +86,7 @@ public class Usuario implements Serializable {
         this.lugaresEstudio = lugaresEstudio;
         this.lugaresTrabajo = lugaresTrabajo;
         this.articulos = articulos;
+        this.notificacion = notificacion;
         this.lugarNacimiento = lugarNacimiento;
         this.amigos = amigos;
         this.fotoPerfil = fotoPerfil;
@@ -228,5 +233,13 @@ public class Usuario implements Serializable {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public Set<Notificacion> getNotificacion() {
+        return notificacion;
+    }
+
+    public void setNotificacion(Set<Notificacion> notificacion) {
+        this.notificacion = notificacion;
     }
 }

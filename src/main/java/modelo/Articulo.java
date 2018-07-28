@@ -29,11 +29,11 @@ public class Articulo {
     @Column
     private  boolean publico;
 
-    @OneToMany(mappedBy = "articulo", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Mencion> mencions = new HashSet<>();
-
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Etiqueta> etiquetaSet = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Notificacion> notificacionSet = new HashSet<>();
 
     public Articulo() {
     }
@@ -46,14 +46,14 @@ public class Articulo {
         this.publico = publico;
     }
 
-    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, Set<Mencion> mencions, Set<Etiqueta> etiquetaSet) {
+    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, Set<Etiqueta> etiquetaSet, Set<Notificacion> notificacionSet) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.usuario = usuario;
         this.fechaCreacion = fechaCreacion;
         this.publico = publico;
-        this.mencions = mencions;
         this.etiquetaSet = etiquetaSet;
+        this.notificacionSet = notificacionSet;
     }
 
     public long getId() {
@@ -112,11 +112,11 @@ public class Articulo {
         this.publico = publico;
     }
 
-    public Set<Mencion> getMencions() {
-        return mencions;
+    public Set<Notificacion> getNotificacionSet() {
+        return notificacionSet;
     }
 
-    public void setMencions(Set<Mencion> mencions) {
-        this.mencions = mencions;
+    public void setNotificacionSet(Set<Notificacion> notificacionSet) {
+        this.notificacionSet = notificacionSet;
     }
 }
