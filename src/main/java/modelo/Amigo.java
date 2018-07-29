@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.sql.Date;
 
 /**
  * Amigo
@@ -21,5 +22,11 @@ public class Amigo {
     private boolean aceptado;
 
     @ManyToOne
-    private Usuario usuario;
+    private Usuario usuario1;
+
+    @ManyToOne
+    private Usuario usuario2;
+
+    @Column
+    private Date date_friended;
 }

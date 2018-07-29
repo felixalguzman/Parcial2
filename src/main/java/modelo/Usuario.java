@@ -62,8 +62,10 @@ public class Usuario implements Serializable {
     @Column
     private String lugarNacimiento;
 
-    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private Set<Amigo> amigos = new HashSet<>();
+    @OneToMany(mappedBy = "usuario1",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Set<Amigo> amigos1 = new HashSet<>();
+    @OneToMany(mappedBy = "usuario2",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Set<Amigo> amigos2 = new HashSet<>();
 
     @Column(columnDefinition = "BLOB")
     private byte[] fotoPerfil;
@@ -74,7 +76,7 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, String correo, String username, String contrasena, Date fechaNacimiento, String ciudadActual, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, Set<Notificacion> notificacion, String lugarNacimiento, Set<Amigo> amigos, byte[] fotoPerfil, boolean admin) {
+    public Usuario(String nombre, String apellido, String correo, String username, String contrasena, Date fechaNacimiento, String ciudadActual, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, Set<Notificacion> notificacion, String lugarNacimiento, Set<Amigo> amigos1, Set<Amigo> amigos2, byte[] fotoPerfil, boolean admin) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
@@ -88,9 +90,26 @@ public class Usuario implements Serializable {
         this.articulos = articulos;
         this.notificacion = notificacion;
         this.lugarNacimiento = lugarNacimiento;
-        this.amigos = amigos;
+        this.amigos1 = amigos1;
+        this.amigos2 = amigos2;
         this.fotoPerfil = fotoPerfil;
         this.admin = admin;
+    }
+
+    public Set<Amigo> getAmigos1() {
+        return amigos1;
+    }
+
+    public void setAmigos1(Set<Amigo> amigos1) {
+        this.amigos1 = amigos1;
+    }
+
+    public Set<Amigo> getAmigos2() {
+        return amigos2;
+    }
+
+    public void setAmigos2(Set<Amigo> amigos2) {
+        this.amigos2 = amigos2;
     }
 
     public Usuario(String nombre, String apellido, String correo, String password, String username, Date from, boolean admin) {
@@ -211,13 +230,6 @@ public class Usuario implements Serializable {
         this.lugarNacimiento = lugarNacimiento;
     }
 
-    public Set<Amigo> getAmigos() {
-        return amigos;
-    }
-
-    public void setAmigos(Set<Amigo> amigos) {
-        this.amigos = amigos;
-    }
 
     public byte[] getFotoPerfil() {
         return fotoPerfil;
