@@ -8,14 +8,10 @@
 
             <div class="post">
                 <div class="post_content">
-                    <#if (articulo.foto)??>
+                    <#if (articulo.foto)?has_content>
                          <a href="../${articulo.foto}" data-fancybox="gallery" class="post_img">
                              <img src="../${articulo.foto}" width="480" height="232" alt="">
                          </a>
-                    <#else >
-                     <a href="javascript:;" data-trigger="preview" class="post_img">
-
-                     </a>
 
                     </#if>
 
