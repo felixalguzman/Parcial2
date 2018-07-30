@@ -9,7 +9,7 @@
                 <div class="post_content">
                     <#if articulo.foto??>
                          <a href="#" class="post_img">
-                             <img src="${articulo.foto}"  alt="">
+                             <img src="../${articulo.foto}" alt="">
                          </a>
                     </#if>
 

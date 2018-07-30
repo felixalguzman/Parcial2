@@ -140,7 +140,7 @@ public class Rutas {
             String username = request.queryParams("username");
 
 
-            Usuario usuario = new Usuario(nombre, apellido, correo, password, username, Date.from(Instant.now()), false, "");
+            Usuario usuario = new Usuario(nombre, apellido, correo, password, username, Date.from(Instant.now()), false, "user");
 
             guardarUsuarioSesion(usuario, request);
 
@@ -160,12 +160,10 @@ public class Rutas {
             String publico = request.queryParams("publico");
 
 
-
-
             Articulo articulo = new Articulo(titulo, descripcion, obtenerUsuarioSesion(request), Date.from(Instant.now()), publico != null);
             Session session = HibernateUtil.getSession();
 
-            if (!foto.isEmpty()){
+            if (!foto.isEmpty()) {
                 articulo.setFoto(foto);
             }
 
@@ -187,7 +185,7 @@ public class Rutas {
 
             }
 
-            for (String s: menciones) {
+            for (String s : menciones) {
 
                 Usuario usuario = (Usuario) session.createQuery("select u from Usuario u where u.username = :user").setParameter("user", s).uniqueResult();
                 if (usuario != null) {
@@ -220,6 +218,91 @@ public class Rutas {
 
 
         get("/perfil/:id", (request, response) -> "llego");
+
+        post("/usuario/admin/:id", (request, response) -> {
+
+            System.out.println("ok");
+
+            String id = request.params("id");
+
+            Usuario usuario = new CRUD<Usuario>().findByID(Usuario.class, Long.valueOf(id));
+
+            usuario.setAdmin(true);
+
+            new CRUD<Usuario>().update(usuario);
+
+            response.redirect("/usuarios/");
+            return "";
+        });
+
+        get("/usuarios/", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            Session session = HibernateUtil.getSession();
+
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("leido", false)
+                        .setMaxResults(7).list();
+
+
+                attributes.put("list2", list);
+
+            }
+
+
+            session.close();
+            attributes.put("usuario", obtenerUsuarioSesion(request));
+
+            return new ModelAndView(attributes, "verUsuarios.ftl");
+        }, freeMarkerEngine);
+
+        get("/usuarios/:pag", (request, response) -> {
+
+            StringWriter writer = new StringWriter();
+            Template template = configuration.getTemplate("usuarios.ftl");
+            Map<String, Object> attributes = new HashMap<>();
+
+            String p = request.params("pag");
+            int pagina = Integer.parseInt(p);
+
+            Session session = HibernateUtil.getSession();
+
+            Query query;
+            query = session.createQuery("select u from Usuario u ");
+            query.setFirstResult((pagina - 1) * 5);
+            query.setMaxResults(5);
+
+            Criteria criteriaCount = session.createCriteria(Usuario.class);
+            criteriaCount.setProjection(Projections.rowCount());
+            Long cant = (Long) criteriaCount.uniqueResult();
+
+
+            List<Usuario> usuarios = query.list();
+
+            attributes.put("list", usuarios);
+            attributes.put("actual", pagina);
+            attributes.put("paginas", Math.ceil(cant / 5f));
+            attributes.put("usuario", obtenerUsuarioSesion(request));
+
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("leido", false)
+                        .setMaxResults(7).list();
+
+
+                attributes.put("list2", list);
+
+            }
+
+
+            template.process(attributes, writer);
+
+            session.close();
+
+            return writer;
+        });
 
         get("/inicio/:pag", (request, response) -> {
 
@@ -278,7 +361,7 @@ public class Rutas {
             Map<String, Object> attributes = new HashMap<>();
 
             String id = request.params("post");
-            System.out.println("id : " +id);
+            System.out.println("id : " + id);
 
             Articulo articulo = new CRUD<Articulo>().findByID(Articulo.class, Long.valueOf(id));
 
@@ -313,6 +396,17 @@ public class Rutas {
         get("/terminarPerfil", (request, response) -> {
 
             Map<String, Object> attributes = new HashMap<>();
+            Session session = HibernateUtil.getSession();
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("leido", false)
+                        .setMaxResults(7).list();
+
+                attributes.put("list2", list);
+            }
+
+            session.close();
 
             attributes.put("usuario", obtenerUsuarioSesion(request));
 
@@ -417,7 +511,7 @@ public class Rutas {
 
             System.out.println(request.raw().getPart(campo).getSubmittedFileName());
 
-            if(request.raw().getPart(campo).getSubmittedFileName().isEmpty()){
+            if (request.raw().getPart(campo).getSubmittedFileName().isEmpty()) {
                 return "-1";
             }
             Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);

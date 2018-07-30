@@ -5,10 +5,22 @@
 <script type="text/javascript" src="../js/autoComplete.js"></script>
 <script type="text/javascript" src="../js/cargarArchivo.js"></script>
 
+<script>
+    function validar() {
+
+        if (form.descripcion.value === "" && form.foto.files.length === 0){
+            alert("Debe agregar una descripcion o una foto");
+            return false;
+
+        }
+
+        document.forms['form'].submit();
+    }
+</script>
 
 <div id="post_modal" class="add_post modal">
     <h2>Nuevo Post</h2>
-    <form class="input_group" method="post" enctype="multipart/form-data" action="/publicar">
+    <form class="input_group validar" name="form" method="post"  enctype="multipart/form-data" onsubmit="event.preventDefault(); validar()" action="/publicar">
         <div class="input-field">
             <input type="text" class="validate" name="titulo" placeholder="Titulo del post">
             <textarea class="textarea inputor" id="inputor" name="descripcion" placeholder="Descripción del post"
@@ -27,7 +39,7 @@
                 </div>
                 <div class="input-field col s12">
                     <input type='file' accept="image/*" name="foto" onchange="readURL(this);" class="waves-effect"/>
-                    <input type="text" id="base64" hidden name="base">
+
                 </div>
             </div>
         </div>

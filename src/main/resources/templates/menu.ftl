@@ -40,7 +40,7 @@
                         <a class="dropdown-button" href="#!" data-activates="dropdown1">
 
                             <#if usuario.fotoPerfil??>
-                                <img src="${usuario.fotoPerfil}" height="54" width="54" alt="" class="circle p_2">
+                                <img src="../${usuario.fotoPerfil}" height="54" width="54" alt="" class="circle p_2">
                             </#if>
 
                         </a>
@@ -50,7 +50,10 @@
                             <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification
                                 settings</a></li>
-                            <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
+                            <#if usuario.admin >
+                             <li class="b_b"><a href="/usuarios/"><i class="ion-ios-person"></i>Usuarios</a></li>
+                            </#if>
+
                             <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>
                         <#--<li><a href="#"><i class="ion-ios-flag"></i>Privacy Policy</a></li>-->
                         <#--<li><a href="#"><i class="ion-podium"></i>FAQ</a></li>-->
