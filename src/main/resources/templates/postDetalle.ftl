@@ -54,9 +54,11 @@
 
                 <div class="post post_details">
                     <div class="post_content">
-                        <a href="#" class="post_img">
-                        <#--<img src="images/post-7.jpg" alt="">-->
-                        </a>
+                         <#if articulo.foto??>
+                         <a href="#" class="post_img">
+                             <img src="${articulo.foto}"  alt="">
+                         </a>
+                         </#if>
                     <#if (articulo.titulo??)>
                     <div class="post_heding_aea">
                         <a class="post_heding">${articulo.titulo}</a>

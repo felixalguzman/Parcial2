@@ -8,7 +8,7 @@
 
 <div id="post_modal" class="add_post modal">
     <h2>Nuevo Post</h2>
-    <form class="input_group" method="post" action="/publicar">
+    <form class="input_group" method="post" enctype="multipart/form-data" action="/publicar">
         <div class="input-field">
             <input type="text" class="validate" name="titulo" placeholder="Titulo del post">
             <textarea class="textarea inputor" id="inputor" name="descripcion" placeholder="Descripción del post"
@@ -20,14 +20,14 @@
             </ul>
             <div id="photo" class="col s12 tabs_content">
                 <div class="photo_u upload-image-preview">
-                    <img id="eje" src="images/upload.png" alt="">
+                    <img id="blah" src="images/upload.png" alt="">
                     <h4 id="titulo">Selecciona una foto
                     <#--<small>or drag &amp; drop files</small>-->
                     </h4>
                 </div>
                 <div class="input-field col s12">
-                    <input type='file' id="archivo" name="file" class="waves-effect"/>
-
+                    <input type='file' accept="image/*" name="foto" onchange="readURL(this);" class="waves-effect"/>
+                    <input type="text" id="base64" hidden name="base">
                 </div>
             </div>
         </div>
@@ -41,8 +41,9 @@
         <h4>Publico <span class="tooltip" data-balloon-pos="right"
                           data-balloon="Los usuarios no registrados pueden ver la publicacion sin iniciar sesión"><i
                 class="ion-help"></i> </span></h4>
+        <input type="checkbox" id="togBtn" name="publico">
         <label class="switch" style="display: inline-block;width: 300px;height: 90px;">
-            <input type="checkbox" id="togBtn" name="publico">
+
             <div class="slider round" style="width: 300px;height: 90px; display: inline-block "></div>
         </label>
 

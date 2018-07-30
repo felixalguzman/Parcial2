@@ -7,9 +7,12 @@
 
             <div class="post">
                 <div class="post_content">
-                <#--<a href="#" class="post_img">-->
-                <#--&lt;#&ndash;<img src="images/post-7.jpg" alt="">&ndash;&gt;-->
-                <#--</a>-->
+                    <#if articulo.foto??>
+                         <a href="#" class="post_img">
+                             <img src="${articulo.foto}"  alt="">
+                         </a>
+                    </#if>
+
                     <div class="row author_area">
 
                         <div class="col s4 author">

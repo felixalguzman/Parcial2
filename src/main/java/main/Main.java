@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Date;
 
+import static spark.Spark.externalStaticFileLocation;
 import static spark.Spark.staticFiles;
 
 public class Main {
@@ -20,14 +21,16 @@ public class Main {
         BootstrapService.startDb();
 
         staticFiles.location("/templates");
+      staticFiles.externalLocation("fotos");
+
 
 
         Session session = HibernateUtil.getSession();
 
-        Usuario admin = (Usuario) session.createQuery("from Usuario u where u.admin = :admin").setParameter("admin", true).uniqueResult();
+        Usuario admin = (Usuario) session.createQuery("select u from Usuario u where u.admin = :admin").setParameter("admin", true).uniqueResult();
 
         if (admin == null){
-            new CRUD<Usuario>().save(new Usuario("admin", "admin", "felixlvl@gmail.com", "1234", "admin", Date.from(Instant.now()), true));
+            new CRUD<Usuario>().save(new Usuario("admin", "admin", "felixlvl@gmail.com", "1234", "admin", Date.from(Instant.now()), true, "user"));
 
         }
 

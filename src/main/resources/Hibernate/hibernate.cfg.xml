@@ -10,7 +10,7 @@
         <!-- <property name="connection.password"/> -->
 
         <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="modelo.Articulo"/>
         <mapping class="modelo.Usuario"/>

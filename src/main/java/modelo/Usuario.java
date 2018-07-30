@@ -67,8 +67,8 @@ public class Usuario implements Serializable {
     @OneToMany(mappedBy = "usuario2",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Amigo> amigos2 = new HashSet<>();
 
-    @Column(columnDefinition = "BLOB")
-    private byte[] fotoPerfil;
+    @Column
+    private String fotoPerfil;
 
     @Column
     private boolean admin;
@@ -76,7 +76,7 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, String correo, String username, String contrasena, Date fechaNacimiento, String ciudadActual, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, Set<Notificacion> notificacion, String lugarNacimiento, Set<Amigo> amigos1, Set<Amigo> amigos2, byte[] fotoPerfil, boolean admin) {
+    public Usuario(String nombre, String apellido, String correo, String username, String contrasena, Date fechaNacimiento, String ciudadActual, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, Set<Notificacion> notificacion, String lugarNacimiento, Set<Amigo> amigos1, Set<Amigo> amigos2, String fotoPerfil, boolean admin) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
@@ -112,7 +112,7 @@ public class Usuario implements Serializable {
         this.amigos2 = amigos2;
     }
 
-    public Usuario(String nombre, String apellido, String correo, String password, String username, Date from, boolean admin) {
+    public Usuario(String nombre, String apellido, String correo, String password, String username, Date from, boolean admin, String fotoPerfil) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
@@ -120,6 +120,7 @@ public class Usuario implements Serializable {
         this.username = username;
         this.fechaRegistro = from;
         this.admin = admin;
+        this.fotoPerfil = fotoPerfil;
     }
 
     public static long getSerialVersionUID() {
@@ -231,11 +232,11 @@ public class Usuario implements Serializable {
     }
 
 
-    public byte[] getFotoPerfil() {
+    public String getFotoPerfil() {
         return fotoPerfil;
     }
 
-    public void setFotoPerfil(byte[] fotoPerfil) {
+    public void setFotoPerfil(String fotoPerfil) {
         this.fotoPerfil = fotoPerfil;
     }
 

@@ -23,7 +23,15 @@ import spark.template.freemarker.FreeMarkerEngine;
 import utilidades.JsonUtilidades;
 import utilidades.UsuarioRest;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -35,7 +43,11 @@ public class Rutas {
 
     private static final String pass = "parcial2";
 
+
     public void manejoRutas() {
+
+        File uploadDir = new File("fotos");
+        uploadDir.mkdir();
 
         Configuration configuration = new Configuration(new Version(2, 3, 0));
         configuration.setClassForTemplateLoading(Rutas.class, "/templates");
@@ -107,7 +119,6 @@ public class Rutas {
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
 
-                System.out.println("size: " + list.size());
                 attributes.put("list2", list);
             }
 
@@ -121,7 +132,6 @@ public class Rutas {
 
 
         post("/registrar", (request, response) -> {
-            Map<String, Object> attributes = new HashMap<>();
 
             String nombre = request.queryParams("nombre");
             String apellido = request.queryParams("apellido");
@@ -130,7 +140,7 @@ public class Rutas {
             String username = request.queryParams("username");
 
 
-            Usuario usuario = new Usuario(nombre, apellido, correo, password, username, Date.from(Instant.now()), false);
+            Usuario usuario = new Usuario(nombre, apellido, correo, password, username, Date.from(Instant.now()), false, "");
 
             guardarUsuarioSesion(usuario, request);
 
@@ -142,37 +152,48 @@ public class Rutas {
 
         post("/publicar", (request, response) -> {
 
+            String foto = rutaFoto("foto", uploadDir, request);
             String titulo = request.queryParams("titulo");
             String descripcion = request.queryParams("descripcion");
-            String foto = request.queryParams("file");
+
             String etiquetas = request.queryParams("etiquetas");
             String publico = request.queryParams("publico");
+
+
+
 
             Articulo articulo = new Articulo(titulo, descripcion, obtenerUsuarioSesion(request), Date.from(Instant.now()), publico != null);
             Session session = HibernateUtil.getSession();
 
+            if (!foto.isEmpty()){
+                articulo.setFoto(foto);
+            }
 
             String[] etiqueta = etiquetas.split(",");
+
+
             String[] texto = descripcion.split(" ");
 
             Set<Notificacion> notificacionSet = new HashSet<>();
+            Set<String> menciones = new HashSet<>();
             for (String s : texto) {
 
                 if (s.startsWith("@")) {
                     String user = s.replace('@', ' ');
                     user = user.trim();
-                    System.out.println("username de usuario:" + user);
-                    Usuario usuario = (Usuario) session.createQuery("select u from Usuario u where u.username = :user").setParameter("user", user).uniqueResult();
-                    if (usuario != null) {
-//                        System.out.println("usuario " + usuario.getId() + " " + usuario.getNombre());
 
-                        Notificacion notificacion = new Notificacion(TipoNotificacion.MENCION, articulo, obtenerUsuarioSesion(request), usuario, Date.valueOf(LocalDate.now()), false);
+                    menciones.add(user);
+                }
 
+            }
 
-                        notificacionSet.add(notificacion);
-                    }
+            for (String s: menciones) {
 
+                Usuario usuario = (Usuario) session.createQuery("select u from Usuario u where u.username = :user").setParameter("user", s).uniqueResult();
+                if (usuario != null) {
 
+                    Notificacion notificacion = new Notificacion(TipoNotificacion.MENCION, articulo, obtenerUsuarioSesion(request), usuario, Date.valueOf(LocalDate.now()), false);
+                    notificacionSet.add(notificacion);
                 }
 
             }
@@ -240,11 +261,10 @@ public class Rutas {
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
 
-                System.out.println("size: " + list.size());
+
                 attributes.put("list2", list);
+                attributes.put("cantidadNotificaciones", list.size());
             }
-
-
 
 
             template.process(attributes, writer);
@@ -254,10 +274,11 @@ public class Rutas {
             return writer;
         });
 
-        get("/post/:id", (request, response) -> {
+        get("/post/:post", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
 
-            String id = request.params("id");
+            String id = request.params("post");
+            System.out.println("id : " +id);
 
             Articulo articulo = new CRUD<Articulo>().findByID(Articulo.class, Long.valueOf(id));
 
@@ -270,7 +291,6 @@ public class Rutas {
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
-
 
                 attributes.put("list2", list);
             }
@@ -387,5 +407,26 @@ public class Rutas {
         return request.session().attribute("usuario");
     }
 
+    public static String rutaFoto(String campo, File direccion, Request request) throws IOException {
+
+        Path tempFile = Files.createTempFile(direccion.toPath(), "", "");
+
+        request.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
+
+        try (InputStream input = request.raw().getPart(campo).getInputStream()) {
+
+            System.out.println(request.raw().getPart(campo).getSubmittedFileName());
+
+            if(request.raw().getPart(campo).getSubmittedFileName().isEmpty()){
+                return "-1";
+            }
+            Files.copy(input, tempFile, StandardCopyOption.REPLACE_EXISTING);
+        } catch (ServletException e) {
+            e.printStackTrace();
+            return "-1";
+        }
+
+        return "/" + tempFile.getFileName().toString();
+    }
 
 }

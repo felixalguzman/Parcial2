@@ -35,6 +35,9 @@ public class Articulo {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Notificacion> notificacionSet = new HashSet<>();
 
+    @Column
+    private String foto;
+
     public Articulo() {
     }
 
@@ -46,7 +49,7 @@ public class Articulo {
         this.publico = publico;
     }
 
-    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, Set<Etiqueta> etiquetaSet, Set<Notificacion> notificacionSet) {
+    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, Set<Etiqueta> etiquetaSet, Set<Notificacion> notificacionSet, String foto) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.usuario = usuario;
@@ -54,6 +57,7 @@ public class Articulo {
         this.publico = publico;
         this.etiquetaSet = etiquetaSet;
         this.notificacionSet = notificacionSet;
+        this.foto = foto;
     }
 
     public long getId() {
@@ -118,5 +122,13 @@ public class Articulo {
 
     public void setNotificacionSet(Set<Notificacion> notificacionSet) {
         this.notificacionSet = notificacionSet;
+    }
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
     }
 }
