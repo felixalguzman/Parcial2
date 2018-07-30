@@ -1,25 +1,33 @@
 <script src="../js/ajax.js"></script>
     <script src="../js/jquery-3.3.1.min.js"></script>
 
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
 
 <#list list as articulo>
 
             <div class="post">
                 <div class="post_content">
-                    <#if articulo.foto??>
-                         <a href="#" class="post_img">
-                             <img src="../${articulo.foto}" alt="">
+                    <#if (articulo.foto)??>
+                         <a href="../${articulo.foto}" data-fancybox="gallery" class="post_img">
+                             <img src="../${articulo.foto}" width="480" height="232" alt="">
                          </a>
+                    <#else >
+                     <a href="javascript:;" data-trigger="preview" class="post_img">
+
+                     </a>
+
                     </#if>
 
                     <div class="row author_area">
 
                         <div class="col s4 author">
 
-                        <#--<div class="col s4 media_left">-->
-                        <#--&lt;#&ndash;foto&ndash;&gt;-->
-                        <#--</div>-->
+                            <#if (articulo.usuario.fotoPerfil)??>
+                                <div class="col s4 media_left">
+                                 <img src="../${articulo.usuario.fotoPerfil}" width="50" height="50" class="circle" alt="">
+                                </div>
+                             </#if>
 
                             <div class="col s8 media_body">
                                 <a href="/perfil/${articulo.usuario.id}">${articulo.usuario.nombre} ${articulo.usuario.apellido}</a>

@@ -3,10 +3,7 @@ package main;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
-import modelo.Articulo;
-import modelo.Etiqueta;
-import modelo.Notificacion;
-import modelo.Usuario;
+import modelo.*;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -216,6 +213,27 @@ public class Rutas {
             return "";
         });
 
+        post("/agregarComentario", (request, response) -> {
+
+            if (obtenerUsuarioSesion(request) == null){
+                response.redirect("/");
+            }
+
+            String comentario = request.queryParams("comentario");
+            String articulo = request.queryParams("articulo");
+            String autor = request.queryParams("autor");
+
+            Usuario usuario = new CRUD<Usuario>().findByID(Usuario.class, Long.valueOf(autor));
+            Articulo articulo1 = new CRUD<Articulo>().findByID(Articulo.class, Long.valueOf(articulo));
+            Comentario comentario1 = new Comentario(usuario, comentario, Date.from(Instant.now()), articulo1);
+
+            new CRUD<Comentario>().save(comentario1);
+
+            response.redirect("/post/" + articulo);
+
+            return "";
+        });
+
 
         get("/perfil/:id", (request, response) -> "llego");
 
@@ -378,7 +396,13 @@ public class Rutas {
                 attributes.put("list2", list);
             }
 
+            List<Comentario> comentarios = session.createQuery("select c from Comentario c where c.articulo = :articulo order by c.id desc")
+                    .setParameter("articulo", articulo)
+                    .list();
+
             session.close();
+
+            attributes.put("list", comentarios);
 
             int min = Minutes.minutesBetween(fin, inicio).getMinutes() % 60;
 

@@ -38,6 +38,8 @@
     <!--[if lt IE 9]>
     <script src="js/html5shiv.min.js"></script>
     <script src="js/respond.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
     <![endif]-->
 </head>
 <body>
@@ -55,8 +57,8 @@
                 <div class="post post_details">
                     <div class="post_content">
                          <#if articulo.foto??>
-                         <a href="#" class="post_img">
-                             <img src="${articulo.foto}"  alt="">
+                         <a href="../${articulo.foto}" data-fancybox="gallery" class="post_img">
+                             <img src="../${articulo.foto}" width="480" height="232" alt="">
                          </a>
                          </#if>
                     <#if (articulo.titulo??)>
@@ -67,7 +69,11 @@
                     </#if>
                         <div class="post_heding_aea">
                         <#--<a href="#" class="post_heding">Why Is It I Can Never Think Of Anything Good To Make For Supper</a>-->
-                            <h4 class="by_author"><img src="images/author-s-1.jpg" alt="" class="circle">
+                            <h4 class="by_author">
+                                  <#if (articulo.usuario.fotoPerfil)??>
+                                    <img src="../${articulo.usuario.fotoPerfil}" alt="" height="30" width="30"
+                                         class="circle">
+                                  </#if>
                                 <a href="#">${articulo.usuario.nombre}  ${articulo.usuario.apellido} </a> ${tiempoPublicado}
                             </h4>
                         </div>
@@ -82,12 +88,17 @@
                         </div>
 
                     </div>
+
+
                 </div>
 
                 <!-- End Post -->
             </div>
 
-
+        <#--Comentarios-->
+            <div class="post post_details">
+            <#include "comentarios.ftl">
+            </div>
         </div>
 
         <!-- left side bar -->
@@ -179,7 +190,9 @@
 <!-- End Footer area -->
 
 <!-- Add post poup area -->
-   <#include "agregarPost.ftl">
+
+       <#include "agregarPost.ftl">
+
 <!-- End Add post poup area -->
 
 <!-- Popup area -->

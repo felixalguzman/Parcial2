@@ -23,7 +23,7 @@
     <form class="input_group validar" name="form" method="post"  enctype="multipart/form-data" onsubmit="event.preventDefault(); validar()" action="/publicar">
         <div class="input-field">
             <input type="text" class="validate" name="titulo" placeholder="Titulo del post">
-            <textarea class="textarea inputor" id="inputor" name="descripcion" placeholder="Descripción del post"
+            <textarea class="textarea inputor" id="inputor" name="descripcion" placeholder="Descripción del post. Puedes etiquetar a algún amigo con @"
             ></textarea>
         </div>
         <div class="upload_photo row">

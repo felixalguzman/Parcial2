@@ -27,7 +27,7 @@ public class Main {
 
         Session session = HibernateUtil.getSession();
 
-        Usuario admin = (Usuario) session.createQuery("select u from Usuario u where u.admin = :admin").setParameter("admin", true).uniqueResult();
+        Usuario admin = (Usuario) session.createQuery("select u from Usuario u where u.admin = :admin").setParameter("admin", true).setMaxResults(1).uniqueResult();
 
         if (admin == null){
             new CRUD<Usuario>().save(new Usuario("admin", "admin", "felixlvl@gmail.com", "1234", "admin", Date.from(Instant.now()), true, "user"));
