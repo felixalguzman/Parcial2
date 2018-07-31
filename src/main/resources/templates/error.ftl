@@ -10,10 +10,10 @@
     <title>Open List | Html template</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="images/favicon.png" type="image/x-icon" /> 
+    <link rel="icon" href="../images/favicon.png" type="image/x-icon" />
     
     <!--Theme Styles CSS-->
-	<link rel="stylesheet" href="css/style.css" media="all" /> 
+	<link rel="stylesheet" href="../css/style.css" media="all" />
 
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// --> 
     <!--[if lt IE 9]>

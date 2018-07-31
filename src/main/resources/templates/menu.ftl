@@ -2,7 +2,10 @@
     <div class="nav-wrapper">
         <a href="/inicio" class="brand-logo"><img src="../images/logo.png" alt=""></a>
         <ul class="left_menu hide-on-med-and-down">
-            <!-- <li><a href="#">About membership</a></li>  -->
+            <li><a href="/inicio" class="active">Inicio</a></li>
+               <#if (usuario??)>
+                  <li><a href="/perfil/${usuario.id}" class="">Perfil</a></li>
+               </#if>
         </ul>
 
     <ul class="right right_menu hide-on-med-and-down">
@@ -19,10 +22,7 @@
                     <!-- Follow feed -->
                     <li class="notifications follow"><a class="dropdown-button" href="#!" data-activates="dropdown4"><i
                             class="ion-ios-person-outline"></i><b class="n-number">7</b></a>
-                        <!-- Messages -->
-                    <li class="notifications messages"><a class="dropdown-button" href="#!"
-                                                          data-activates="dropdown3"><i
-                            class="ion-ios-chatboxes-outline"></i><b class="n-number">3</b></a>
+
                         <!-- Notifications -->
                     <li class="notifications"><a class="dropdown-button" href="#!" data-activates="dropdown2"><i
                             class="ion-ios-bell-outline"></i><b class="n-number">${list2?size}</b></a>
@@ -46,7 +46,7 @@
                         </a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown_s4" class="dropdown-content">
-                            <li><a href="profile.html"><i class="ion-person"></i>My profile</a></li>
+                            <li><a href="/perfil/${usuario.id}"><i class="ion-person"></i>Mi perfil</a></li>
                             <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification
                                 settings</a></li>

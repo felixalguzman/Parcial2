@@ -45,6 +45,9 @@ public class Usuario implements Serializable {
     private String ciudadActual;
 
     @Column
+    private String paisNacimiento;
+
+    @Column
     private Date fechaRegistro;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -76,7 +79,7 @@ public class Usuario implements Serializable {
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, String correo, String username, String contrasena, Date fechaNacimiento, String ciudadActual, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, Set<Notificacion> notificacion, String lugarNacimiento, Set<Amigo> amigos1, Set<Amigo> amigos2, String fotoPerfil, boolean admin) {
+    public Usuario(String nombre, String apellido, String correo, String username, String contrasena, Date fechaNacimiento, String ciudadActual, String paisNacimiento, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, Set<Notificacion> notificacion, String lugarNacimiento, Set<Amigo> amigos1, Set<Amigo> amigos2, String fotoPerfil, boolean admin) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
@@ -84,6 +87,7 @@ public class Usuario implements Serializable {
         this.contrasena = contrasena;
         this.fechaNacimiento = fechaNacimiento;
         this.ciudadActual = ciudadActual;
+        this.paisNacimiento = paisNacimiento;
         this.fechaRegistro = fechaRegistro;
         this.lugaresEstudio = lugaresEstudio;
         this.lugaresTrabajo = lugaresTrabajo;
@@ -231,7 +235,6 @@ public class Usuario implements Serializable {
         this.lugarNacimiento = lugarNacimiento;
     }
 
-
     public String getFotoPerfil() {
         return fotoPerfil;
     }
@@ -254,5 +257,13 @@ public class Usuario implements Serializable {
 
     public void setNotificacion(Set<Notificacion> notificacion) {
         this.notificacion = notificacion;
+    }
+
+    public String getPaisNacimiento() {
+        return paisNacimiento;
+    }
+
+    public void setPaisNacimiento(String paisNacimiento) {
+        this.paisNacimiento = paisNacimiento;
     }
 }

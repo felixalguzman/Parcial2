@@ -235,7 +235,36 @@ public class Rutas {
         });
 
 
-        get("/perfil/:id", (request, response) -> "llego");
+        get("/perfil/:id", (request, response) -> {
+
+            Map<String, Object> attributes = new HashMap<>();
+
+            String id = request.params("id");
+
+            Usuario usuario = new CRUD<Usuario>().findByID(Usuario.class, Long.valueOf(id));
+
+            Session session = HibernateUtil.getSession();
+
+            List<Articulo> articulos = session.createQuery("select a from Articulo a where a.usuario = :id")
+                    .setParameter("id", usuario)
+                    .list();
+
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", usuario)
+                        .setParameter("leido", false)
+                        .list();
+
+                attributes.put("list2", list);
+            }
+
+            session.close();
+            attributes.put("list", articulos);
+            attributes.put("perfil", usuario);
+            attributes.put("usuario", obtenerUsuarioSesion(request));
+
+            return new ModelAndView(attributes, "perfil.ftl");
+        }, freeMarkerEngine);
 
         post("/usuario/admin/:id", (request, response) -> {
 
@@ -321,6 +350,7 @@ public class Rutas {
 
             return writer;
         });
+
 
         get("/inicio/:pag", (request, response) -> {
 
@@ -472,7 +502,7 @@ public class Rutas {
             Session session = HibernateUtil.getSession();
 
 
-            Usuario usuario = (Usuario) session.createQuery(sql).setParameter("username", username).setParameter("pass", contra).uniqueResult();
+            Usuario usuario = (Usuario) session.createQuery(sql).setParameter("username", username).setParameter("pass", contra).setMaxResults(1).uniqueResult();
 
             if (usuario != null) {
 

@@ -8,12 +8,26 @@
 
             <div class="post">
                 <div class="post_content">
+
                     <#if (articulo.foto)?has_content>
                          <a href="../${articulo.foto}" data-fancybox="gallery" class="post_img">
                              <img src="../${articulo.foto}" width="480" height="232" alt="">
+
                          </a>
 
+
                     </#if>
+
+                         <#if articulo.etiquetaSet?size != 0>
+
+                             <#list articulo.etiquetaSet as etiqueta>
+
+                             <span><i class="ion-android-radio-button-off"></i>
+                                 ${etiqueta.nombre}
+                            </span>
+                             </#list>
+
+                         </#if>
 
                     <div class="row author_area">
 
@@ -21,9 +35,10 @@
 
                             <#if (articulo.usuario.fotoPerfil)??>
                                 <div class="col s4 media_left">
-                                 <img src="../${articulo.usuario.fotoPerfil}" width="50" height="50" class="circle" alt="">
+                                    <img src="../${articulo.usuario.fotoPerfil}" width="50" height="50" class="circle"
+                                         alt="">
                                 </div>
-                             </#if>
+                            </#if>
 
                             <div class="col s8 media_body">
                                 <a href="/perfil/${articulo.usuario.id}">${articulo.usuario.nombre} ${articulo.usuario.apellido}</a>

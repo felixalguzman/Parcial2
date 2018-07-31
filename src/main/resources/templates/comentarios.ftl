@@ -8,7 +8,7 @@
         <div class="input-field comment_input">
             <form method="post" action="/agregarComentario">
 
-                <input placeholder="Placeholder" name="comentario" class="validate" type="text">
+                <input placeholder="Agregar un comentario" name="comentario" class="validate" type="text">
                 <input type="hidden" name="articulo" value="${articulo.id}">
                 <input type="hidden" name="autor" value="${articulo.usuario.id}">
 
@@ -31,8 +31,8 @@
             <div class="media_body">
                 <h4><a href="#">${comentario.autor.nombre} ${comentario.autor.apellido}</a> </h4>
                 <p>${comentario.comentario}</p>
-                <span><a href=""><i class="ion-ios-arrow-thin-up"></i></a>483<a href="#"><i
-                        class="ion-ios-arrow-thin-down"></i></a></span>
+                <#--<span><a href=""><i class="ion-ios-arrow-thin-up"></i></a>483<a href="#"><i-->
+                        <#--class="ion-ios-arrow-thin-down"></i></a></span>-->
 
             <#--<a href="#" class="view_mor_r">View more replies...</a>-->
             </div>
