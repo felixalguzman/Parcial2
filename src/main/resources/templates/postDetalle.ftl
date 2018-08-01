@@ -56,7 +56,7 @@
 
                 <div class="post post_details">
                     <div class="post_content">
-                         <#if articulo.foto??>
+                         <#if articulo.foto != "-1">
                          <a href="../${articulo.foto}" data-fancybox="gallery" class="post_img">
                              <img src="../${articulo.foto}" width="480" height="232" alt="">
                          </a>

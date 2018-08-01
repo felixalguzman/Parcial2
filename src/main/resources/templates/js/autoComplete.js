@@ -40,7 +40,7 @@ $(function () {
         at: ":",
         data: emojis,
         displayTpl: "<li>${name} <img src='https://assets-cdn.github.com/images/icons/emoji/${key}.png'  height='20' width='20' /></li>",
-        insertTpl: ':${key}:',
+        insertTpl: '&${key}',
         delay: 400
     };
     $inputor = $('#inputor').atwho(at_config).atwho(emoji_config);

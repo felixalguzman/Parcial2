@@ -3,9 +3,7 @@ package modelo;
 
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Articulo {
@@ -32,11 +30,17 @@ public class Articulo {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Etiqueta> etiquetaSet = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Notificacion> notificacionSet = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OrderBy("fecha desc ")
+    private List<Comentario> comentarioSet = new ArrayList<>();
 
     @Column
     private String foto;
+
+
 
     public Articulo() {
     }
@@ -49,7 +53,7 @@ public class Articulo {
         this.publico = publico;
     }
 
-    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, Set<Etiqueta> etiquetaSet, Set<Notificacion> notificacionSet, String foto) {
+    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, Set<Etiqueta> etiquetaSet, Set<Notificacion> notificacionSet, List<Comentario> comentarioSet, String foto) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.usuario = usuario;
@@ -57,6 +61,7 @@ public class Articulo {
         this.publico = publico;
         this.etiquetaSet = etiquetaSet;
         this.notificacionSet = notificacionSet;
+        this.comentarioSet = comentarioSet;
         this.foto = foto;
     }
 
@@ -130,5 +135,13 @@ public class Articulo {
 
     public void setFoto(String foto) {
         this.foto = foto;
+    }
+
+    public List<Comentario> getComentarioSet() {
+        return comentarioSet;
+    }
+
+    public void setComentarioSet(List<Comentario> comentarioSet) {
+        this.comentarioSet = comentarioSet;
     }
 }

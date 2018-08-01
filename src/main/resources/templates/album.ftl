@@ -91,177 +91,21 @@
 <!-- End Tranding Area -->
 
 <!-- Min Container area -->
-<section class="min_container min_pages">
-    <div class="section_row">
-        <div class="middle_section col" id="infinite_scroll">
-            <!-- Post -->
-            <div id="lastest" class="active">
-
-
-
-
-<#list list as articulo>
-
-    <div class="post">
-        <div class="post_content">
-
-                    <#if (articulo.foto) != "-1">
-                         <a href="../${articulo.foto}" data-fancybox="gallery" class="post_img">
-                             <img src="../${articulo.foto}" width="480" height="232" alt="">
-
-                         </a>
-
-
-                    </#if>
-
-                         <#if articulo.etiquetaSet?size != 0>
-
-                             <#list articulo.etiquetaSet as etiqueta>
-
-                             <span><i class="ion-android-radio-button-off"></i>
-                                 ${etiqueta.nombre}
-                            </span>
-                             </#list>
-
-                         </#if>
-
-            <div class="row author_area">
-
-                <div class="col s4 author">
-
-                            <#if (articulo.usuario.fotoPerfil)??>
-                                <div class="col s4 media_left">
-                                    <img src="../${articulo.usuario.fotoPerfil}" width="50" height="50" class="circle"
-                                         alt="">
-                                </div>
-                            </#if>
-
-                    <div class="col s8 media_body">
-                        <a href="/perfil/${articulo.usuario.id}">${articulo.usuario.nombre} ${articulo.usuario.apellido}</a>
-                    <#--<span>${tiempoPublicado}</span>-->
-                    </div>
-                </div>
-            </div>
-
-                    <#if (articulo.titulo??)>
-                        <a href="/post/${articulo.id}" class="post_heding">${articulo.titulo}</a>
-                    </#if>
-
-            <p>${articulo.cuerpo}</p>
-
-
+<section class="min_container photo_pages">
+    <div class="section_row row">
+        <div class="col s12">
+            <h2>Albumes</h2>
+            <a href="#" class="waves-effect add_photos">Add Photos</a>
         </div>
 
-        <div class="like_comment_area row">
-            <div class="col s4 btn_floating">
-            <#--<a class="btn-floating waves-effect"><i class="ion-android-share-alt"></i></a>-->
-            <#--<h6>128k</h6>-->
-            </div>
-            <div class="col s4 updown_btn">
-            <#--<a href="#"><i class="ion-android-arrow-dropdown-circle"></i></a>-->
-            <#--<a href="#"><i class="ion-android-arrow-dropup-circle"></i></a>-->
-                <a href="#" class="count_n" style="text-align: center">483</a>
-            </div>
-            <div class="col s4 updown_btn comment_c">
-                <a href="#"><i class="ion-ios-chatboxes-outline"></i></a>
-                <a href="/post/${articulo.id}#comentario" class="count_n">${articulo.comentarioSet?size}</a>
-            </div>
+        <div class="col col l3 m4 s6 photos_col">
+            <a href="#" class="photos"><img src="images/gallery/photos-1.jpg" alt=""></a>
         </div>
-
-        <div class="like_comment_area">
-            <a href="/post/${articulo.id}" class="submit_open_list modal-trigger">Leer más</a>
-        </div>
-
-
-        <br>
 
 
     </div>
-
-
-</#list>
-
-            </div>
-
-
-        <#--<a href="load-mor.html" class="load-mor btn-large">Loding next</a>-->
-        </div>
-        <!-- left side bar -->
-        <div class="col">
-            <div class="left_side_bar">
-                <div class="categories">
-                    <h3 class="categories_tittle">Post Categories</h3>
-                    <ul class="categories_icon">
-                        <li><a class="tooltip" data-balloon="Rate Post" data-balloon-pos="up"><i
-                                class="ion-ios-star"></i></a></li>
-                        <li><a href="#" class="tooltip" data-balloon="Time Post" data-balloon-pos="up"><i
-                                class="ion-android-time"></i></a></li>
-                        <li><a href="#" class="tooltip" data-balloon="Music Post" data-balloon-pos="up"><img
-                                src="images/icons/sound.png" alt=""></a></li>
-                        <li><a href="#" class="tooltip" data-balloon="Images Post" data-balloon-pos="up"><i
-                                class="ion-android-image"></i></a></li>
-                        <li><a href="#" class="tooltip" data-balloon="chart Post" data-balloon-pos="up"><i
-                                class="large material-icons">insert_chart</i></a></li>
-                    </ul>
-                </div>
-                <div class="interests">
-                    <h3 class="categories_tittle">Your Interests <span>Edit</span></h3>
-                    <ul class="interests_list">
-                    <#--<li><a href="#"><i class="ion-android-radio-button-off"></i>Arts</a></li>-->
-                    <#--<li><a href="#"><i class="ion-android-radio-button-off"></i>Beauty</a></li>-->
-                    <#--<li><a href="#"><i class="ion-android-radio-button-off"></i>Entertainment</a></li>-->
-                    <#--<li><a href="#"><i class="ion-android-radio-button-off"></i>Travel</a></li>-->
-                    <#--<li><a href="#"><i class="ion-android-radio-button-off"></i>Personal</a></li>-->
-                    <#--<li><a href="#"><i class="ion-android-radio-button-off"></i>Politics</a></li>-->
-                    <#--<li><a href="#"><i class="ion-android-radio-button-off"></i>Space Science</a></li>-->
-                    </ul>
-                </div>
-                <div class="profile">
-                    <h3 class="categories_tittle">Profile <span>Edit</span></h3>
-                    <ul class="profile_pic">
-                    <#--<li><a href="#"><img src="images/profile-1.jpg" alt="" class="circle"></a></li>-->
-                    <#--<li><a href="#"><img src="images/profile-2.jpg" alt="" class="circle"></a></li> -->
-                    <#--<li><a href="#"><img src="images/profile-3.jpg" alt="" class="circle"></a></li> -->
-                    <#--<li><a href="#"><img src="images/profile-4.jpg" alt="" class="circle"></a></li> -->
-                    <#--<li><a href="#"><img src="images/profile-5.jpg" alt="" class="circle"></a></li> -->
-                    <#--<li><a href="#"><img src="images/profile-6.jpg" alt="" class="circle"></a></li> -->
-                    <#--<li><a href="#"><img src="images/profile-7.jpg" alt="" class="circle"></a></li> -->
-                    <#--<li><a href="#"><img src="images/profile-8.jpg" alt="" class="circle"></a></li> -->
-                    <#--<li><a href="#"><img src="images/profile-9.jpg" alt="" class="circle"></a></li> -->
-                    <#--<li><a href="#"><img src="images/profile-10.jpg" alt="" class="circle"></a></li> -->
-                    </ul>
-                </div>
-                <div class="badges">
-                    <h3 class="categories_tittle">Badges</h3>
-                    <ul class="badges_list">
-                    <#--<li><a href="#"><i class="ion-bonfire"></i><span>6</span></a></li>-->
-                    <#--<li><a href="#"><i class="ion-bluetooth"></i></a></li>-->
-                    <#--<li><a href="#"><i class="ion-coffee"></i></a></li>-->
-                    <#--<li><a href="#"><i class="ion-clock"></i> <span>3</span></a></li>-->
-                    <#--<li><a href="#"><i class="ion-camera"></i></a></li>-->
-                    <#--<li><a href="#"><i class="ion-ios-bell-outline"></i><span>2</span></a></li>-->
-                    <#--<li><a href="#"><i class="ion-bluetooth"></i></a></li>-->
-                    <#--<li><a href="#"><i class="ion-coffee"></i></a></li>-->
-                    <#--<li><a href="#"><i class="ion-clock"></i></a></li>-->
-                    </ul>
-                </div>
-
-
-                <div class="advertis">
-                    <a href="#"><img src="images/advertis.jpg" alt=""></a>
-                </div>
-            </div>
-        </div>
-        <!-- Right side bar -->
-        <div class="right_side_bar col">
-            <div class="right_sidebar_iner">
-                <div class="calendar_widget">
-                    <h3 class="categories_tittle">Calendar</h3>
-                    <table class="calendar"></table>
-                </div>
-
-            </div>
-        </div>
+    <div class="loding_img">
+        <img src="images/icons/loding.png" alt="">
     </div>
 </section>
 <!-- End Min Container area -->

@@ -9,7 +9,7 @@
             <div class="post">
                 <div class="post_content">
 
-                    <#if (articulo.foto)?has_content>
+                    <#if (articulo.foto) != "-1">
                          <a href="../${articulo.foto}" data-fancybox="gallery" class="post_img">
                              <img src="../${articulo.foto}" width="480" height="232" alt="">
 
@@ -67,8 +67,8 @@
                         <a href="#" class="count_n" style="text-align: center">483</a>
                     </div>
                     <div class="col s4 updown_btn comment_c">
-                        <a href="#"><i class="ion-ios-chatboxes-outline"></i></a>
-                        <a href="#" class="count_n">14</a>
+                        <a href="/post/${articulo.id}#comentario"><i class="ion-ios-chatboxes-outline"></i></a>
+                        <a href="/post/${articulo.id}#comentario" class="count_n">${articulo.comentarioSet?size}</a>
                     </div>
                 </div>
 

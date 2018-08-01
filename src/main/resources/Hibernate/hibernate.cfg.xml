@@ -13,6 +13,8 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <mapping class="modelo.Articulo"/>
+        <mapping class="modelo.Foto"/>
+        <mapping class="modelo.Album"/>
         <mapping class="modelo.Usuario"/>
         <mapping class="modelo.Like"/>
         <mapping class="modelo.Lugar"/>

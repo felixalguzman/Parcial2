@@ -21,7 +21,7 @@ public class Main {
         BootstrapService.startDb();
 
         staticFiles.location("/templates");
-      staticFiles.externalLocation("fotos");
+        staticFiles.externalLocation("fotos");
 
 
 

@@ -14,9 +14,6 @@ public class Comentario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
-    private String foto;
-
     @OneToOne
     private Usuario autor;
 
@@ -26,8 +23,11 @@ public class Comentario {
     @Column(nullable = false)
     private Date fecha;
 
-    @OneToOne
+    @ManyToOne
     private Articulo articulo;
+
+    @ManyToOne
+    private Foto fotos;
 
     public Comentario() {
     }
@@ -38,11 +38,12 @@ public class Comentario {
         this.fecha = fecha;
     }
 
-    public Comentario(Usuario autor, String comentario, Date fecha, Articulo articulo) {
+    public Comentario(Usuario autor, String comentario, Date fecha, Articulo articulo, Foto fotos) {
         this.autor = autor;
         this.comentario = comentario;
         this.fecha = fecha;
         this.articulo = articulo;
+        this.fotos = fotos;
     }
 
     public long getId() {
@@ -51,14 +52,6 @@ public class Comentario {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getFoto() {
-        return foto;
-    }
-
-    public void setFoto(String foto) {
-        this.foto = foto;
     }
 
     public Usuario getAutor() {
@@ -91,5 +84,13 @@ public class Comentario {
 
     public void setArticulo(Articulo articulo) {
         this.articulo = articulo;
+    }
+
+    public Foto getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(Foto fotos) {
+        this.fotos = fotos;
     }
 }

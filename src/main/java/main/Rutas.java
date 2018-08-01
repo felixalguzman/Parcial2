@@ -5,6 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.Version;
 import modelo.*;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
@@ -166,21 +167,9 @@ public class Rutas {
 
             String[] etiqueta = etiquetas.split(",");
 
-
-            String[] texto = descripcion.split(" ");
-
             Set<Notificacion> notificacionSet = new HashSet<>();
-            Set<String> menciones = new HashSet<>();
-            for (String s : texto) {
 
-                if (s.startsWith("@")) {
-                    String user = s.replace('@', ' ');
-                    user = user.trim();
-
-                    menciones.add(user);
-                }
-
-            }
+            Set<String> menciones = usuariosTexto(descripcion);
 
             for (String s : menciones) {
 
@@ -215,19 +204,48 @@ public class Rutas {
 
         post("/agregarComentario", (request, response) -> {
 
-            if (obtenerUsuarioSesion(request) == null){
+            if (obtenerUsuarioSesion(request) == null) {
                 response.redirect("/");
             }
+
 
             String comentario = request.queryParams("comentario");
             String articulo = request.queryParams("articulo");
             String autor = request.queryParams("autor");
 
-            Usuario usuario = new CRUD<Usuario>().findByID(Usuario.class, Long.valueOf(autor));
             Articulo articulo1 = new CRUD<Articulo>().findByID(Articulo.class, Long.valueOf(articulo));
-            Comentario comentario1 = new Comentario(usuario, comentario, Date.from(Instant.now()), articulo1);
 
-            new CRUD<Comentario>().save(comentario1);
+            Session session = HibernateUtil.getSession();
+
+
+            Set<Notificacion> notificacionSet = new HashSet<>();
+            Set<String> menciones = usuariosTexto(comentario);
+
+
+            for (String s : menciones) {
+
+                Usuario usuario = (Usuario) session.createQuery("select u from Usuario u where u.username = :user").setParameter("user", s).uniqueResult();
+                if (usuario != null) {
+
+                    Notificacion notificacion = new Notificacion(TipoNotificacion.COMENTARIO, articulo1, obtenerUsuarioSesion(request), usuario, Date.valueOf(LocalDate.now()), false);
+                    notificacionSet.add(notificacion);
+                }
+
+            }
+
+
+            Usuario usuario = new CRUD<Usuario>().findByID(Usuario.class, Long.valueOf(autor));
+            Comentario comentario1 = new Comentario(usuario, comentario, Date.from(Instant.now()));
+
+            Set<Comentario> comentarios = new HashSet<>();
+            comentarios.add(comentario1);
+
+            articulo1.getComentarioSet().addAll(comentarios);
+
+            articulo1.getNotificacionSet().addAll(notificacionSet);
+
+
+            new CRUD<Articulo>().update(articulo1);
 
             response.redirect("/post/" + articulo);
 
@@ -245,9 +263,10 @@ public class Rutas {
 
             Session session = HibernateUtil.getSession();
 
-            List<Articulo> articulos = session.createQuery("select a from Articulo a where a.usuario = :id")
+            List<Articulo> articulos = session.createQuery("select a from Articulo a where a.usuario = :id order by a.id desc ")
                     .setParameter("id", usuario)
                     .list();
+
 
             if (obtenerUsuarioSesion(request) != null) {
                 List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
@@ -426,13 +445,9 @@ public class Rutas {
                 attributes.put("list2", list);
             }
 
-            List<Comentario> comentarios = session.createQuery("select c from Comentario c where c.articulo = :articulo order by c.id desc")
-                    .setParameter("articulo", articulo)
-                    .list();
 
             session.close();
 
-            attributes.put("list", comentarios);
 
             int min = Minutes.minutesBetween(fin, inicio).getMinutes() % 60;
 
@@ -542,6 +557,25 @@ public class Rutas {
 
     }
 
+
+    private Set<String> usuariosTexto(String palabras) {
+
+        Set<String> menciones = new HashSet<>();
+        String[] texto = palabras.split(" ");
+        for (String s : texto) {
+
+            if (s.startsWith("@")) {
+                String user = s.replace('@', ' ');
+                user = user.trim();
+
+                menciones.add(user);
+            }
+
+        }
+
+        return menciones;
+
+    }
 
     private void guardarUsuarioSesion(Usuario usuario, Request request) {
 
