@@ -22,6 +22,12 @@
                     <!-- Follow feed -->
                     <li class="notifications follow"><a class="dropdown-button" href="#!" data-activates="dropdown4"><i
                             class="ion-ios-person-outline"></i><b class="n-number">7</b></a>
+                        <ul id="dropdownFollow" class="dropdown-content">
+                            <li class="hed_notic"> Followers </li>
+                            <#include "amigo.ftl">
+                            <li><a href="#" class="waves-effect chack_all_btn">Check All
+                                Notifications</a></li>
+                        </ul>
 
                         <!-- Notifications -->
                     <li class="notifications"><a class="dropdown-button" href="#!" data-activates="dropdown2"><i

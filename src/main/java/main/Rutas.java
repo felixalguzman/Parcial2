@@ -410,8 +410,11 @@ public class Rutas {
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
-
-
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
                 attributes.put("list2", list);
                 attributes.put("cantidadNotificaciones", list.size());
             }
