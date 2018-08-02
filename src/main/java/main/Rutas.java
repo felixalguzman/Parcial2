@@ -116,6 +116,11 @@ public class Rutas {
                         .setParameter("usuario", usuario)
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
 
                 attributes.put("list2", list);
             }
@@ -273,6 +278,11 @@ public class Rutas {
                         .setParameter("usuario", usuario)
                         .setParameter("leido", false)
                         .list();
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
 
                 attributes.put("list2", list);
             }
@@ -310,6 +320,11 @@ public class Rutas {
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
 
 
                 attributes.put("list2", list);
@@ -356,6 +371,11 @@ public class Rutas {
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
 
 
                 attributes.put("list2", list);
@@ -440,6 +460,11 @@ public class Rutas {
 
             Session session = HibernateUtil.getSession();
             if (obtenerUsuarioSesion(request) != null) {
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
                 List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
@@ -470,6 +495,11 @@ public class Rutas {
             Map<String, Object> attributes = new HashMap<>();
             Session session = HibernateUtil.getSession();
             if (obtenerUsuarioSesion(request) != null) {
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
                 List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
