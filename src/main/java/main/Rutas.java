@@ -13,6 +13,8 @@ import org.hibernate.criterion.Projections;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 import servicios.db.hibernate.CRUD;
 import servicios.db.hibernate.HibernateUtil;
 import servicios.enums.TipoNotificacion;
@@ -57,8 +59,26 @@ public class Rutas {
         configuration.setClassForTemplateLoading(Rutas.class, "/templates");
 
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(configuration);
+        Serializer serializer = new Persister();
 
         path("/rest", () -> {
+            path("/usuarios", () -> {
+
+                get("/", (request, response) -> {
+
+                    List<Usuario> usuarioList = new CRUD<Usuario>().findAll(Usuario.class);
+
+                    List<UsuarioRest> usuarioRests = new ArrayList<>();
+
+                    for (Usuario usuario : usuarioList) {
+
+                        usuarioRests.add(new UsuarioRest(usuario.getId(), usuario.getNombre(), usuario.getApellido(), usuario.getUsername()));
+
+                    }
+
+                    return usuarioRests;
+                }, JsonUtilidades.json());
+            });
 
             path("/articulos", () -> {
 
@@ -88,6 +108,36 @@ public class Rutas {
 
                 });
             });
+        path("/soap", () -> {
+
+            path("/articulos", () -> {
+
+                get("/", (request, response) -> {
+
+                    List<Articulo> Articulos = new CRUD<Articulo>().findAll(Articulo.class);
+
+                    return Articulos;
+                }, JsonUtilidades.json());
+                post("/", ACCEPT_TYPE_JSON, (request, response) -> {
+
+                    Articulo articulo= null;
+
+                    //verificando el tipo de dato.
+                    switch (request.headers("Content-Type")) {
+                        case ACCEPT_TYPE_JSON:
+                            articulo = new Gson().fromJson(request.body(), Articulo.class);
+                            new CRUD<Articulo>().save(articulo);
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Error el formato no disponible");
+                    }
+                    return "";
+
+                });
+
+
+            });
+        });
 
         get("/inicio", (request, response) -> {
 
