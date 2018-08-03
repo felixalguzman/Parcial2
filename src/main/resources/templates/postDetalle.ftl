@@ -233,7 +233,7 @@
                 <input type="checkbox" id="test2" name="recordar"/>
                 <label for="test2">Remember me <a href="#">Forget password?</a></label>
             </p>
-            <button class="waves-effect">SIgn in</button>
+            <button class="waves-effect">Sign in</button>
         </form>
         <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat"><i class="ion-close-round"></i></a>
     </div>

@@ -1,5 +1,6 @@
 package main;
 
+import com.google.gson.Gson;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -17,6 +18,8 @@ import servicios.db.hibernate.HibernateUtil;
 import servicios.enums.TipoNotificacion;
 import spark.ModelAndView;
 import spark.Request;
+import spark.Request;
+import spark.Response;
 import spark.template.freemarker.FreeMarkerEngine;
 import utilidades.JsonUtilidades;
 import utilidades.UsuarioRest;
@@ -40,7 +43,10 @@ import static spark.Spark.*;
 public class Rutas {
 
     private static final String pass = "parcial2";
-
+    public final static String ACCEPT_TYPE_JSON = "application/json";
+    public final static String ACCEPT_TYPE_XML = "application/xml";
+    public final static int BAD_REQUEST = 400;
+    public final static int ERROR_INTERNO = 500;
 
     public void manejoRutas() {
 
@@ -54,24 +60,34 @@ public class Rutas {
 
         path("/rest", () -> {
 
-            path("/usuarios", () -> {
+            path("/articulos", () -> {
 
                 get("/", (request, response) -> {
 
-                    List<Usuario> usuarioList = new CRUD<Usuario>().findAll(Usuario.class);
+                    List<Articulo> Articulos = new CRUD<Articulo>().findAll(Articulo.class);
 
-                    List<UsuarioRest> usuarioRests = new ArrayList<>();
-
-                    for (Usuario usuario : usuarioList) {
-
-                        usuarioRests.add(new UsuarioRest(usuario.getId(), usuario.getNombre(), usuario.getApellido(), usuario.getUsername()));
-
-                    }
-
-                    return usuarioRests;
+                    return Articulos;
                 }, JsonUtilidades.json());
+                post("/", ACCEPT_TYPE_JSON, (request, response) -> {
+
+                    Articulo articulo= null;
+
+                    //verificando el tipo de dato.
+                    switch (request.headers("Content-Type")) {
+                        case ACCEPT_TYPE_JSON:
+                            articulo = new Gson().fromJson(request.body(), Articulo.class);
+                            new CRUD<Articulo>().save(articulo);
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Error el formato no disponible");
+                    }
+                    return "";
+
+                });
+
+
+                });
             });
-        });
 
         get("/inicio", (request, response) -> {
 
@@ -116,14 +132,13 @@ public class Rutas {
                         .setParameter("usuario", usuario)
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
-
-                attributes.put("list2", list);
-
                 List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("aceptado", false)
                         .setMaxResults(7).list();
                 attributes.put("list3", amigos);
+
+                attributes.put("list2", list);
             }
 
             session.close();
@@ -151,6 +166,17 @@ public class Rutas {
             new CRUD<Usuario>().save(usuario);
             response.redirect("/terminarPerfil");
 
+            return "";
+        });
+
+        post("/aceptar/:id", (request, response) -> {
+            Long id = Long.valueOf(request.params("id"));
+            Session session = HibernateUtil.getSession();
+            Amigo amigo = (Amigo) session.createQuery("select u from Amigo u where u.id = :id").setParameter("id", id).uniqueResult();
+            amigo.setAceptado(true);
+            amigo.setDate_friended(new Date(Calendar.getInstance().getTime().getTime()));
+            new CRUD<Amigo>().update(amigo);
+            response.redirect("/");
             return "";
         });
 
@@ -258,6 +284,7 @@ public class Rutas {
             return "";
         });
 
+
         get("/perfil/:id", (request, response) -> {
 
             Map<String, Object> attributes = new HashMap<>();
@@ -278,14 +305,13 @@ public class Rutas {
                         .setParameter("usuario", usuario)
                         .setParameter("leido", false)
                         .list();
-
-                attributes.put("list2", list);
-
                 List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("aceptado", false)
                         .setMaxResults(7).list();
                 attributes.put("list3", amigos);
+
+                attributes.put("list2", list);
             }
 
             session.close();
@@ -321,15 +347,14 @@ public class Rutas {
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
-
-
-                attributes.put("list2", list);
-
                 List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("aceptado", false)
                         .setMaxResults(7).list();
                 attributes.put("list3", amigos);
+
+
+                attributes.put("list2", list);
 
             }
 
@@ -373,6 +398,11 @@ public class Rutas {
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
 
 
                 attributes.put("list2", list);
@@ -386,6 +416,7 @@ public class Rutas {
 
             return writer;
         });
+
 
         get("/inicio/:pag", (request, response) -> {
 
@@ -456,18 +487,17 @@ public class Rutas {
 
             Session session = HibernateUtil.getSession();
             if (obtenerUsuarioSesion(request) != null) {
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
                 List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
                         .setMaxResults(7).list();
 
                 attributes.put("list2", list);
-
-                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
-                        .setParameter("usuario", obtenerUsuarioSesion(request))
-                        .setParameter("aceptado", false)
-                        .setMaxResults(7).list();
-                attributes.put("list3", amigos);
             }
 
 
@@ -492,6 +522,11 @@ public class Rutas {
             Map<String, Object> attributes = new HashMap<>();
             Session session = HibernateUtil.getSession();
             if (obtenerUsuarioSesion(request) != null) {
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
                 List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
                         .setParameter("usuario", obtenerUsuarioSesion(request))
                         .setParameter("leido", false)
@@ -527,6 +562,7 @@ public class Rutas {
 
             return "";
         });
+
 
         get("/iniciarSesion", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
