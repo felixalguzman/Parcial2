@@ -53,6 +53,15 @@ public class Articulo {
         this.publico = publico;
     }
 
+    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, String foto) {
+        this.titulo = titulo;
+        this.cuerpo = cuerpo;
+        this.usuario = usuario;
+        this.fechaCreacion = fechaCreacion;
+        this.publico = publico;
+        this.foto = foto;
+    }
+
     public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, Set<Etiqueta> etiquetaSet, Set<Notificacion> notificacionSet, List<Comentario> comentarioSet, String foto) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
