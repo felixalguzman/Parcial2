@@ -118,6 +118,12 @@ public class Rutas {
                         .setMaxResults(7).list();
 
                 attributes.put("list2", list);
+
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
             }
 
             session.close();
@@ -252,7 +258,6 @@ public class Rutas {
             return "";
         });
 
-
         get("/perfil/:id", (request, response) -> {
 
             Map<String, Object> attributes = new HashMap<>();
@@ -275,6 +280,12 @@ public class Rutas {
                         .list();
 
                 attributes.put("list2", list);
+
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
             }
 
             session.close();
@@ -313,6 +324,12 @@ public class Rutas {
 
 
                 attributes.put("list2", list);
+
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
 
             }
 
@@ -369,7 +386,6 @@ public class Rutas {
 
             return writer;
         });
-
 
         get("/inicio/:pag", (request, response) -> {
 
@@ -446,6 +462,12 @@ public class Rutas {
                         .setMaxResults(7).list();
 
                 attributes.put("list2", list);
+
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
             }
 
 
@@ -506,7 +528,6 @@ public class Rutas {
             return "";
         });
 
-
         get("/iniciarSesion", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
 
@@ -546,7 +567,6 @@ public class Rutas {
             return new ModelAndView(attributes, "error.ftl");
         }, freeMarkerEngine);
 
-
         get("/logOut", (request, response) -> {
 
             spark.Session session = request.session(true);
@@ -556,6 +576,42 @@ public class Rutas {
 
             return "";
         });
+
+        get("/albumes/:id/", (request, response) -> {
+
+            Map<String, Object> attributes = new HashMap<>();
+
+            String id = request.params("id");
+
+            Usuario usuario = new CRUD<Usuario>().findByID(Usuario.class, Long.valueOf(id));
+
+            Session session = HibernateUtil.getSession();
+
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", usuario)
+                        .setParameter("leido", false)
+                        .list();
+
+                attributes.put("list2", list);
+
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
+            }
+
+            List<Articulo> articulos = session.createQuery("select a from Articulo a where a.usuario = :id order by a.id desc ")
+                    .setParameter("id", usuario)
+                    .list();
+            attributes.put("list", articulos);
+            session.close();
+            attributes.put("perfil", usuario);
+            attributes.put("usuario", obtenerUsuarioSesion(request));
+
+            return new ModelAndView(attributes, "albums.ftl");
+        }, freeMarkerEngine);
 
 
     }

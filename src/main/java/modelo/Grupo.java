@@ -34,7 +34,7 @@ public class Grupo {
     private Set<Usuario> miembros = new HashSet<>();
 
     @Column
-    private Blob fotoPerfil;
+    private String fotoPerfil;
 
     @Column
     private Date fechaCreacion;

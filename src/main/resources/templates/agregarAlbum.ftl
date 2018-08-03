@@ -18,8 +18,8 @@
     }
 </script>
 
-<div id="post_modal" class="add_post modal">
-    <h2>Nuevo Post</h2>
+<div id="post_album" class="add_post modal">
+    <h2>Nuevo Album</h2>
     <form class="input_group validar" name="form" method="post"  enctype="multipart/form-data" onsubmit="event.preventDefault(); validar()" action="/publicar">
         <div class="input-field">
             <input type="text" class="validate" name="titulo" placeholder="Titulo del post">
@@ -43,24 +43,9 @@
                 </div>
             </div>
         </div>
-        <div class="input-field col s12 select_option">
-            <div class="input-field">
-                <input type="text" placeholder="Etiqueta, Etiqueta2" name="etiquetas">
-            </div>
-        </div>
 
 
-        <h4>Publico <span class="tooltip" data-balloon-pos="right"
-                          data-balloon="Los usuarios no registrados pueden ver la publicacion sin iniciar sesión"><i
-                class="ion-help"></i> </span></h4>
-        <input type="checkbox" id="togBtn" name="publico">
-        <label for="togBtn" class="switch" style="display: inline-block;width: 300px;height: 90px;">
 
-        </label>
-
-
-        <br>
-        <br>
         <br>
 
         <div class="row submit_btn_area">

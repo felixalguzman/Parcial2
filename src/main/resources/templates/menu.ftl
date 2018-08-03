@@ -23,7 +23,7 @@
                     <li class="notifications follow"><a class="dropdown-button" href="#!" data-activates="dropdown4"><i
                             class="ion-ios-person-outline"></i><b class="n-number">7</b></a>
                         <ul id="dropdownFollow" class="dropdown-content">
-                            <li class="hed_notic"> Followers </li>
+                            <li class="hed_notic"> Followers</li>
                             <#include "amigo.ftl">
                             <li><a href="#" class="waves-effect chack_all_btn">Check All
                                 Notifications</a></li>
@@ -53,7 +53,6 @@
                         <!-- Dropdown Structure -->
                         <ul id="dropdown_s4" class="dropdown-content">
                             <li><a href="/perfil/${usuario.id}"><i class="ion-person"></i>Mi perfil</a></li>
-                            <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification
                                 settings</a></li>
                             <#if usuario.admin >
@@ -71,7 +70,7 @@
                         <li><a href="#modal1" class="waves-effect btn post_btn modal-trigger">Iniciar</a></li>
 
                 </#if>
-        </ul>
+
 
     </div>
 </nav>

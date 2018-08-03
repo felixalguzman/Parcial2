@@ -62,7 +62,7 @@
         <div class="col l4 m6">
             <ul class="profile_menu">
                 <li><a href="#">About</a></li>
-                <li><a href="#">Photos</a></li>
+                <li><a href="/albumes/${perfil.id}/">Albumes</a></li>
                 <li><a href="#">Videos</a></li>
                 <li class="post_d"><a class="dropdown-button" href="#!" data-activates="dro_pm">...</a>
                     <!-- Dropdown Structure -->
