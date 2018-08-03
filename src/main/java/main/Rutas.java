@@ -1,6 +1,7 @@
 package main;
 
 import com.google.gson.Gson;
+import com.sun.org.apache.xml.internal.serializer.Serializer;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
@@ -9,10 +10,13 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.annotations.Persister;
 import org.hibernate.criterion.Projections;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.joda.time.DateTime;
 import org.joda.time.Minutes;
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
 import servicios.db.hibernate.CRUD;
 import servicios.db.hibernate.HibernateUtil;
 import servicios.enums.TipoNotificacion;
@@ -58,7 +62,26 @@ public class Rutas {
 
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(configuration);
 
+        Serializer serializer = new Persister();
+
         path("/rest", () -> {
+            path("/usuarios", () -> {
+
+                get("/", (request, response) -> {
+
+                    List<Usuario> usuarioList = new CRUD<Usuario>().findAll(Usuario.class);
+
+                    List<UsuarioRest> usuarioRests = new ArrayList<>();
+
+                    for (Usuario usuario : usuarioList) {
+
+                        usuarioRests.add(new UsuarioRest(usuario.getId(), usuario.getNombre(), usuario.getApellido(), usuario.getUsername()));
+
+                    }
+
+                    return usuarioRests;
+                }, JsonUtilidades.json());
+            });
 
             path("/articulos", () -> {
 
@@ -88,6 +111,36 @@ public class Rutas {
 
                 });
             });
+        path("/soap", () -> {
+
+            path("/articulos", () -> {
+
+                get("/", (request, response) -> {
+
+                    List<Articulo> Articulos = new CRUD<Articulo>().findAll(Articulo.class);
+
+                    return Articulos;
+                }, JsonUtilidades.json());
+                post("/", ACCEPT_TYPE_JSON, (request, response) -> {
+
+                    Articulo articulo= null;
+
+                    //verificando el tipo de dato.
+                    switch (request.headers("Content-Type")) {
+                        case ACCEPT_TYPE_JSON:
+                            articulo = new Gson().fromJson(request.body(), Articulo.class);
+                            new CRUD<Articulo>().save(articulo);
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Error el formato no disponible");
+                    }
+                    return "";
+
+                });
+
+
+            });
+        });
 
         get("/inicio", (request, response) -> {
 
@@ -283,6 +336,7 @@ public class Rutas {
 
             return "";
         });
+
 
 
         get("/perfil/:id", (request, response) -> {
@@ -603,6 +657,7 @@ public class Rutas {
             return new ModelAndView(attributes, "error.ftl");
         }, freeMarkerEngine);
 
+
         get("/logOut", (request, response) -> {
 
             spark.Session session = request.session(true);
@@ -612,42 +667,6 @@ public class Rutas {
 
             return "";
         });
-
-        get("/albumes/:id/", (request, response) -> {
-
-            Map<String, Object> attributes = new HashMap<>();
-
-            String id = request.params("id");
-
-            Usuario usuario = new CRUD<Usuario>().findByID(Usuario.class, Long.valueOf(id));
-
-            Session session = HibernateUtil.getSession();
-
-            if (obtenerUsuarioSesion(request) != null) {
-                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
-                        .setParameter("usuario", usuario)
-                        .setParameter("leido", false)
-                        .list();
-
-                attributes.put("list2", list);
-
-                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
-                        .setParameter("usuario", obtenerUsuarioSesion(request))
-                        .setParameter("aceptado", false)
-                        .setMaxResults(7).list();
-                attributes.put("list3", amigos);
-            }
-
-            List<Articulo> articulos = session.createQuery("select a from Articulo a where a.usuario = :id order by a.id desc ")
-                    .setParameter("id", usuario)
-                    .list();
-            attributes.put("list", articulos);
-            session.close();
-            attributes.put("perfil", usuario);
-            attributes.put("usuario", obtenerUsuarioSesion(request));
-
-            return new ModelAndView(attributes, "albums.ftl");
-        }, freeMarkerEngine);
 
 
     }
