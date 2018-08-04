@@ -696,16 +696,26 @@ public class Rutas {
 
             Session session = HibernateUtil.getSession();
 
-            MeGusta meGusta = (MeGusta) session.createQuery("select m from MeGusta m where m.usuario = :id")
-                    .setParameter("id", obtenerUsuarioSesion(request))
-                    .setMaxResults(1)
-                    .uniqueResult();
 
-            if (meGusta == null) {
 
-                meGusta = new MeGusta(obtenerUsuarioSesion(request));
-                articulo.getMeGusta().add(meGusta);
-                new CRUD<MeGusta>().save(meGusta);
+            Boolean existe = false;
+            MeGusta meGusta = null;
+            for (MeGusta meGusta1: articulo.getMeGusta()) {
+
+                if (meGusta1.getUsuario().getId() == obtenerUsuarioSesion(request).getId()){
+
+                    existe = true;
+                    meGusta = meGusta1;
+                }
+
+            }
+
+
+            if (!existe) {
+
+               MeGusta meGusta1 = new MeGusta(obtenerUsuarioSesion(request));
+                articulo.getMeGusta().add(meGusta1);
+                new CRUD<MeGusta>().save(meGusta1);
                 new CRUD<Articulo>().update(articulo);
 
             } else {
