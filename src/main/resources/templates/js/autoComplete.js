@@ -1,5 +1,5 @@
 $(function () {
-    $.fn.atwho.debug = true;
+    // $.fn.atwho.debug = true;
     var emojis = [
         "smile", "iphone", "girl", "smiley", "heart", "kiss", "copyright", "coffee",
         "a", "ab", "airplane", "alien", "ambulance", "angel", "anger", "angry",
@@ -35,7 +35,7 @@ $(function () {
         displayTpl: "<li>${nombre} ${apellido} <small>${usuario}</small></li>",
         limit: 7,
         searchKey: "nombre"
-    };
+    },$inputor;
     var emoji_config = {
         at: ":",
         data: emojis,
@@ -43,7 +43,7 @@ $(function () {
         insertTpl: ':${key}:',
         delay: 400
     };
-    $inputor = $('#inputor').atwho(at_config).atwho(emoji_config);
+    $inputor = $('#inputor').atwho(at_config);
     $inputor.caret('pos', 47);
     $inputor.focus().atwho('run');
 

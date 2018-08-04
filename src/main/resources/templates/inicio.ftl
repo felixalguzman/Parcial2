@@ -10,28 +10,28 @@
     <title>Home</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../images/favicon.png" type="image/x-icon"/>
+    <link rel="icon" href="../../images/favicon.png" type="image/x-icon"/>
     <!-- Materialize CSS -->
-    <link rel="stylesheet" href="../css/materialize.min.css">
+    <link rel="stylesheet" href="../../css/materialize.min.css">
     <!-- Tooltip CSS -->
-    <link rel="stylesheet" href="../vendors/tooltip/balloon.min.css">
+    <link rel="stylesheet" href="../../vendors/tooltip/balloon.min.css">
     <!-- Icon CSS-->
-    <link rel="stylesheet" href="../vendors/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="../vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../vendors/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="../../vendors/font-awesome/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Calendar CSS-->
-    <link rel="stylesheet" href="../vendors/calendar/dcalendar.picker.css">
+    <link rel="stylesheet" href="../../vendors/calendar/dcalendar.picker.css">
 <#--<script src="../js/cargarArchivo.js"></script>-->
 <#--<script src="../js/ajax.js"></script>-->
     <!-- jQuery JS -->
-    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
     <!-- Check Button js -->
-    <script src="../vendors/check-button/jquery.jqflipswitch.min.js"></script>
-    <script src="../vendors/check-button/jquery.jqflipswitch.js"></script>
+    <script src="../../vendors/check-button/jquery.jqflipswitch.min.js"></script>
+    <script src="../../vendors/check-button/jquery.jqflipswitch.js"></script>
 
 
     <!--Theme Styles CSS-->
-    <link rel="stylesheet" href="../css/style.css" media="all"/>
+    <link rel="stylesheet" href="../../css/style.css" media="all"/>
 
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -52,7 +52,7 @@
     <li><a href="#" class="waves-effect btn">Featured</a></li>   -->
 </ul>
 <div class="banner_area">
-    <img src="../images/banner.jpg" alt="" class="banner_img">
+    <img src="../../images/banner.jpg" alt="" class="banner_img">
 </div>
 <!-- End Trending Area -->
 
@@ -223,13 +223,13 @@
 
 
 <!-- Materialize JS -->
-<script src="../js/materialize.min.js"></script>
+<script src="../../js/materialize.min.js"></script>
 <!-- Calendar JS -->
-<script src="../vendors/calendar/dcalendar.picker.js"></script>
+<script src="../../vendors/calendar/dcalendar.picker.js"></script>
 <!-- Load JS -->
-<script src="../vendors/infinite-scroll/jquery.jscroll.js"></script>
+<script src="../../vendors/infinite-scroll/jquery.jscroll.js"></script>
 <!-- Theme JS -->
-<script src="../js/theme.js"></script>
+<script src="../../js/theme.js"></script>
 </body>
 
 <!-- Mirrored from uxart.io/downloads/openlist-html/all-template/get-started.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 21 Jul 2018 03:34:23 GMT -->

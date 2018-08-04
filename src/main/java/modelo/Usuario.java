@@ -76,10 +76,13 @@ public class Usuario implements Serializable {
     @Column
     private boolean admin;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<MeGusta> meGusta = new HashSet<>();
+
     public Usuario() {
     }
 
-    public Usuario(String nombre, String apellido, String correo, String username, String contrasena, Date fechaNacimiento, String ciudadActual, String paisNacimiento, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, Set<Notificacion> notificacion, String lugarNacimiento, Set<Amigo> amigos1, Set<Amigo> amigos2, String fotoPerfil, boolean admin) {
+    public Usuario(String nombre, String apellido, String correo, String username, String contrasena, Date fechaNacimiento, String ciudadActual, String paisNacimiento, Date fechaRegistro, Set<Lugar> lugaresEstudio, Set<Lugar> lugaresTrabajo, Set<Articulo> articulos, Set<Notificacion> notificacion, String lugarNacimiento, Set<Amigo> amigos1, Set<Amigo> amigos2, String fotoPerfil, boolean admin, Set<MeGusta> meGusta) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.correo = correo;
@@ -98,6 +101,7 @@ public class Usuario implements Serializable {
         this.amigos2 = amigos2;
         this.fotoPerfil = fotoPerfil;
         this.admin = admin;
+        this.meGusta = meGusta;
     }
 
     public Set<Amigo> getAmigos1() {
@@ -265,5 +269,13 @@ public class Usuario implements Serializable {
 
     public void setPaisNacimiento(String paisNacimiento) {
         this.paisNacimiento = paisNacimiento;
+    }
+
+    public Set<MeGusta> getMeGusta() {
+        return meGusta;
+    }
+
+    public void setMeGusta(Set<MeGusta> meGusta) {
+        this.meGusta = meGusta;
     }
 }

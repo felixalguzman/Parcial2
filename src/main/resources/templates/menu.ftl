@@ -1,6 +1,6 @@
 <nav class="header_area header_2">
     <div class="nav-wrapper">
-        <a href="/inicio" class="brand-logo"><img src="../images/logo.png" alt=""></a>
+        <a href="/inicio" class="brand-logo"><img src="../../images/logo.png" alt=""></a>
         <ul class="left_menu hide-on-med-and-down">
             <li><a href="/inicio" class="active">Inicio</a></li>
                <#if (usuario??)>
@@ -46,7 +46,7 @@
                         <a class="dropdown-button" href="#!" data-activates="dropdown1">
 
                             <#if usuario.fotoPerfil??>
-                                <img src="../${usuario.fotoPerfil}" height="54" width="54" alt="" class="circle p_2">
+                                <img src="../../${usuario.fotoPerfil}" height="54" width="54" alt="" class="circle p_2">
                             </#if>
 
                         </a>

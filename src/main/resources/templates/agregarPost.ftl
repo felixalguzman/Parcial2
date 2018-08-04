@@ -1,9 +1,9 @@
 <#--<link rel="stylesheet" href="../vendors/check-button/switch.css">-->
 <script type="text/javascript" src="http://ichord.github.io/Caret.js/src/jquery.caret.js"></script>
-<script type="text/javascript" src="../dist/js/jquery.atwho.js"></script>
+<script type="text/javascript" src="../../dist/js/jquery.atwho.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/at.js/1.4.0/css/jquery.atwho.min.css">
-<script type="text/javascript" src="../js/autoComplete.js"></script>
-<script type="text/javascript" src="../js/cargarArchivo.js"></script>
+<script type="text/javascript" src="../../js/autoComplete.js"></script>
+<script type="text/javascript" src="../../js/cargarArchivo.js"></script>
 
 <script>
     function validar() {
@@ -32,7 +32,7 @@
             </ul>
             <div id="photo" class="col s12 tabs_content">
                 <div class="photo_u upload-image-preview">
-                    <img id="blah" src="images/upload.png" alt="">
+                    <img id="blah" src="../../images/upload.png" alt="">
                     <h4 id="titulo">Selecciona una foto
                     <#--<small>or drag &amp; drop files</small>-->
                     </h4>

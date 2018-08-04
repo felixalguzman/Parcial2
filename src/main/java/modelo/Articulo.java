@@ -41,6 +41,8 @@ public class Articulo {
     private String foto;
 
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<MeGusta> meGusta = new HashSet<>();
 
     public Articulo() {
     }
@@ -62,7 +64,7 @@ public class Articulo {
         this.foto = foto;
     }
 
-    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, Set<Etiqueta> etiquetaSet, Set<Notificacion> notificacionSet, List<Comentario> comentarioSet, String foto) {
+    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico, Set<Etiqueta> etiquetaSet, Set<Notificacion> notificacionSet, List<Comentario> comentarioSet, String foto, Set<MeGusta> meGusta) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.usuario = usuario;
@@ -72,6 +74,7 @@ public class Articulo {
         this.notificacionSet = notificacionSet;
         this.comentarioSet = comentarioSet;
         this.foto = foto;
+        this.meGusta = meGusta;
     }
 
     public long getId() {
@@ -152,5 +155,13 @@ public class Articulo {
 
     public void setComentarioSet(List<Comentario> comentarioSet) {
         this.comentarioSet = comentarioSet;
+    }
+
+    public Set<MeGusta> getMeGusta() {
+        return meGusta;
+    }
+
+    public void setMeGusta(Set<MeGusta> meGusta) {
+        this.meGusta = meGusta;
     }
 }

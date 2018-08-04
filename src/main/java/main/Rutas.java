@@ -88,7 +88,7 @@ public class Rutas {
                 }, JsonUtilidades.json());
                 post("/", ACCEPT_TYPE_JSON, (request, response) -> {
 
-                    Articulo articulo= null;
+                    Articulo articulo = null;
 
                     //verificando el tipo de dato.
                     switch (request.headers("Content-Type")) {
@@ -104,8 +104,8 @@ public class Rutas {
                 });
 
 
-                });
             });
+        });
         path("/soap", () -> {
 
             path("/articulos", () -> {
@@ -118,7 +118,7 @@ public class Rutas {
                 }, JsonUtilidades.json());
                 post("/", ACCEPT_TYPE_XML, (request, response) -> {
 
-                    Articulo articulo= null;
+                    Articulo articulo = null;
 
                     //verificando el tipo de dato.
                     switch (request.headers("Content-Type")) {
@@ -331,7 +331,6 @@ public class Rutas {
 
             return "";
         });
-
 
 
         get("/perfil/:id", (request, response) -> {
@@ -564,6 +563,43 @@ public class Rutas {
 
 
             return new ModelAndView(attributes, "postDetalle.ftl");
+        }, freeMarkerEngine);
+
+        get("/:id/albums/", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+
+
+            String id = request.params("id");
+
+            Usuario usuario = new CRUD<Usuario>().findByID(Usuario.class, Long.valueOf(id));
+
+            Session session = HibernateUtil.getSession();
+
+            List<Articulo> articulos = session.createQuery("select a from Articulo a where a.usuario = :id order by a.id desc ")
+                    .setParameter("id", usuario)
+                    .list();
+
+
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", usuario)
+                        .setParameter("leido", false)
+                        .list();
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
+
+                attributes.put("list2", list);
+            }
+
+            session.close();
+            attributes.put("list", articulos);
+            attributes.put("perfil", usuario);
+            attributes.put("usuario", obtenerUsuarioSesion(request));
+
+            return new ModelAndView(attributes, "albums.ftl");
         }, freeMarkerEngine);
 
         get("/terminarPerfil", (request, response) -> {

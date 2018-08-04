@@ -10,27 +10,23 @@
     <title>Open List | Html template</title>
 
     <!-- Favicon -->
-    <link rel="icon" href="../images/favicon.png" type="image/x-icon"/>
+    <link rel="icon" href="../../images/favicon.png" type="image/x-icon"/>
     <!-- Materialize CSS -->
-    <link rel="stylesheet" href="../css/materialize.min.css">
+    <link rel="stylesheet" href="../../css/materialize.min.css">
     <!-- Tooltip CSS -->
-    <link rel="stylesheet" href="../vendors/tooltip/balloon.min.css">
+    <link rel="stylesheet" href="../../vendors/tooltip/balloon.min.css">
     <!-- Icon CSS-->
-    <link rel="stylesheet" href="../vendors/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="../vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../vendors/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="../../vendors/font-awesome/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Calendar CSS-->
-    <link rel="stylesheet" href="../vendors/calendar/dcalendar.picker.css">
+    <link rel="stylesheet" href="../../vendors/calendar/dcalendar.picker.css">
 
     <!-- jQuery JS -->
-    <script src="../js/jquery-3.3.1.min.js"></script>
-    <!-- Check Button js -->
-    <script src="../vendors/check-button/jquery.jqflipswitch.min.js"></script>
-    <script src="../vendors/check-button/jquery.jqflipswitch.js"></script>
-
+    <script src="../../js/jquery-3.3.1.min.js"></script>
 
     <!--Theme Styles CSS-->
-    <link rel="stylesheet" href="../css/style.css" media="all"/>
+    <link rel="stylesheet" href="../../css/style.css" media="all"/>
 
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css"/>
@@ -52,7 +48,7 @@
     <div class="media profile_picture">
         <a><img src="../${perfil.fotoPerfil}" alt="" class="circle" height="165" width="170"></a>
         <div class="media_body">
-            <a href="profile.html">${perfil.nombre} ${perfil.apellido}</a>
+            <a>${perfil.nombre} ${perfil.apellido}</a>
             <h6>${(perfil.ciudadActual)!}, Bangladesh</h6>
         </div>
     </div>
@@ -62,7 +58,7 @@
         <div class="col l4 m6">
             <ul class="profile_menu">
                 <li><a href="#">About</a></li>
-                <li><a href="/albumes/${perfil.id}/">Albumes</a></li>
+                <li><a href="/${perfil.id}/albums/">Albumes</a></li>
                 <li><a href="#">Videos</a></li>
                 <li class="post_d"><a class="dropdown-button" href="#!" data-activates="dro_pm">...</a>
                     <!-- Dropdown Structure -->
@@ -106,8 +102,8 @@
         <div class="post_content">
 
                     <#if (articulo.foto) != "-1">
-                         <a href="../${articulo.foto}" data-fancybox="gallery" class="post_img">
-                             <img src="../${articulo.foto}" width="480" height="232" alt="">
+                         <a href="../../${articulo.foto}" data-fancybox="gallery" class="post_img">
+                             <img src="../../${articulo.foto}" width="480" height="232" alt="">
 
                          </a>
 
@@ -131,7 +127,7 @@
 
                             <#if (articulo.usuario.fotoPerfil)??>
                                 <div class="col s4 media_left">
-                                    <img src="../${articulo.usuario.fotoPerfil}" width="50" height="50" class="circle"
+                                    <img src="../../${articulo.usuario.fotoPerfil}" width="50" height="50" class="circle"
                                          alt="">
                                 </div>
                             </#if>
@@ -163,7 +159,7 @@
                 <a href="#" class="count_n" style="text-align: center">483</a>
             </div>
             <div class="col s4 updown_btn comment_c">
-                <a href="#"><i class="ion-ios-chatboxes-outline"></i></a>
+                <a href="/post/${articulo.id}#comentario"><i class="ion-ios-chatboxes-outline"></i></a>
                 <a href="/post/${articulo.id}#comentario" class="count_n">${articulo.comentarioSet?size}</a>
             </div>
         </div>
@@ -248,7 +244,7 @@
 
 
                 <div class="advertis">
-                    <a href="#"><img src="images/advertis.jpg" alt=""></a>
+                    <a href="#"><img src="../../images/advertis.jpg" alt=""></a>
                 </div>
             </div>
         </div>
@@ -275,7 +271,7 @@
                 <div class="row valign-wrapper popular_item">
                     <div class="col s3 p_img">
                         <a href="#">
-                            <img src="images/recent-post-1.jpg" alt="" class="circle responsive-img">
+                            <img src="../../images/recent-post-1.jpg" alt="" class="circle responsive-img">
                         </a>
                     </div>
                     <div class="col s9 p_content">
@@ -411,18 +407,18 @@
 <!-- End Add post poup area -->
 
 <!-- jQuery JS -->
-<script src="../js/jquery-3.3.1.min.js"></script>
+<script src="../../js/jquery-3.3.1.min.js"></script>
 <!-- Materialize JS -->
-<script src="../js/materialize.min.js"></script>
+<script src="../../js/materialize.min.js"></script>
 <!-- Calendar JS -->
-<script src="../vendors/calendar/dcalendar.picker.js"></script>
+<script src="../../vendors/calendar/dcalendar.picker.js"></script>
 <!-- Load JS -->
-<script src="../vendors/infinite-scroll/jquery.jscroll.js"></script>
+<script src="../../vendors/infinite-scroll/jquery.jscroll.js"></script>
 <!-- Check Button js -->
-<script src="../vendors/check-button/jquery.jqflipswitch.min.js"></script>
-<script src="../vendors/check-button/jquery.jqflipswitch.js"></script>
+<script src="../../vendors/check-button/jquery.jqflipswitch.min.js"></script>
+<script src="../../vendors/check-button/jquery.jqflipswitch.js"></script>
 <!-- Theme JS -->
-<script src="../js/theme.js"></script>
+<script src="../../js/theme.js"></script>
 </body>
 
 <!-- Mirrored from uxart.io/downloads/openlist-html/all-template/profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 21 Jul 2018 03:35:18 GMT -->

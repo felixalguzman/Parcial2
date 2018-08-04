@@ -17,8 +17,11 @@ public class Foto {
     @ManyToOne
     private Album album;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Comentario> comentarioSet = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<MeGusta> meGusta = new HashSet<>();
 
     public Foto() {
     }
@@ -27,6 +30,13 @@ public class Foto {
         this.foto = foto;
         this.album = album;
         this.comentarioSet = comentarioSet;
+    }
+
+    public Foto(String foto, Album album, Set<Comentario> comentarioSet, Set<MeGusta> meGusta) {
+        this.foto = foto;
+        this.album = album;
+        this.comentarioSet = comentarioSet;
+        this.meGusta = meGusta;
     }
 
     public long getId() {
@@ -59,5 +69,13 @@ public class Foto {
 
     public void setComentarioSet(Set<Comentario> comentarioSet) {
         this.comentarioSet = comentarioSet;
+    }
+
+    public Set<MeGusta> getMeGusta() {
+        return meGusta;
+    }
+
+    public void setMeGusta(Set<MeGusta> meGusta) {
+        this.meGusta = meGusta;
     }
 }

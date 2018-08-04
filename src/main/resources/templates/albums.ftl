@@ -11,33 +11,33 @@
 
 
     <!-- Favicon -->
-    <link rel="icon" href="../images/favicon.png" type="image/x-icon"/>
+    <link rel="icon" href="../../images/favicon.png" type="image/x-icon"/>
     <!-- Materialize CSS -->
-    <link rel="stylesheet" href="../css/materialize.min.css">
+    <link rel="stylesheet" href="../../css/materialize.min.css">
     <!-- Tooltip CSS -->
-    <link rel="stylesheet" href="../vendors/tooltip/balloon.min.css">
+    <link rel="stylesheet" href="../../vendors/tooltip/balloon.min.css">
     <!-- Icon CSS-->
-    <link rel="stylesheet" href="../vendors/ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="../vendors/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../vendors/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="../../vendors/font-awesome/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Calendar CSS-->
-    <link rel="stylesheet" href="../vendors/calendar/dcalendar.picker.css">
+    <link rel="stylesheet" href="../../vendors/calendar/dcalendar.picker.css">
 <#--<script src="../js/cargarArchivo.js"></script>-->
 <#--<script src="../js/ajax.js"></script>-->
     <!-- jQuery JS -->
-    <script src="../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/jquery-3.3.1.min.js"></script>
     <!-- Check Button js -->
-    <script src="../vendors/check-button/jquery.jqflipswitch.min.js"></script>
-    <script src="../vendors/check-button/jquery.jqflipswitch.js"></script>
+    <script src="../../vendors/check-button/jquery.jqflipswitch.min.js"></script>
+    <script src="../../vendors/check-button/jquery.jqflipswitch.js"></script>
 
 
     <!--Theme Styles CSS-->
-    <link rel="stylesheet" href="../css/style.css" media="all"/>
+    <link rel="stylesheet" href="../../css/style.css" media="all"/>
 
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
-    <script src="js/html5shiv.min.js"></script>
-    <script src="js/respond.min.js"></script>
+    <script src="../../js/html5shiv.min.js"></script>
+    <script src="../../js/respond.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
     <![endif]-->
@@ -70,7 +70,7 @@
                         <li><a href="#" class="tooltip" data-balloon="Time Post" data-balloon-pos="up"><i
                                 class="ion-android-time"></i></a></li>
                         <li><a href="#" class="tooltip" data-balloon="Music Post" data-balloon-pos="up"><img
-                                src="images/icons/sound.png" alt=""></a></li>
+                                src="../../images/icons/sound.png" alt=""></a></li>
                         <li><a href="#" class="tooltip" data-balloon="Images Post" data-balloon-pos="up"><i
                                 class="ion-android-image"></i></a></li>
                         <li><a href="#" class="tooltip" data-balloon="chart Post" data-balloon-pos="up"><i
@@ -121,7 +121,7 @@
 
 
                 <div class="advertis">
-                    <a href="#"><img src="images/advertis.jpg" alt=""></a>
+                    <a href="#"><img src="../../images/advertis.jpg" alt=""></a>
                 </div>
             </div>
         </div>
@@ -156,7 +156,7 @@
 <!-- Popup area -->
 <div id="modal2" class="login_popup_aera modal">
     <div class="login_popup_row">
-        <img src="images/login-logo.png" alt="">
+        <img src="../../images/login-logo.png" alt="">
         <h4>Crea una nueva cuenta or <a href="#modal1" class="modal-trigger modal-close">Sign in</a></h4>
         <form class="input_group" method="POST" action="/registrar">
             <div class="input-field">
@@ -178,7 +178,7 @@
 <!-- Log In Popup -->
 <div id="modal1" class="login_popup_aera modal">
     <div class="login_popup_row">
-        <img src="images/login-logo.png" alt="">
+        <img src="../../images/login-logo.png" alt="">
         <h4>Inicia sesion o <a href="#modal2" class="modal-trigger modal-close">crea una cuenta</a></h4>
 
         <h6>Inicia sesion con tu usuario</h6>
@@ -199,14 +199,13 @@
 <!-- End Popup area -->
 
 <!-- Materialize JS -->
-<script src="../js/materialize.min.js"></script>
+<script src="../../js/materialize.min.js"></script>
 <!-- Calendar JS -->
-<script src="../vendors/calendar/dcalendar.picker.js"></script>
+<script src="../../vendors/calendar/dcalendar.picker.js"></script>
 <!-- Load JS -->
-<script src="../vendors/infinite-scroll/jquery.jscroll.js"></script>
+<script src="../../vendors/infinite-scroll/jquery.jscroll.js"></script>
 <!-- Theme JS -->
-<script src="../js/theme.js"></script>
+<script src="../../js/theme.js"></script>
 </body>
 
-<!-- Mirrored from uxart.io/downloads/openlist-html/all-template/details.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 21 Jul 2018 03:35:10 GMT -->
 </html>
