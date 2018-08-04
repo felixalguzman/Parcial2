@@ -41,13 +41,14 @@ public class Articulo {
     private String foto;
 
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @JoinTable(name = "Articulo_MEGUSTA", joinColumns = {@JoinColumn(name = "ID")}, inverseJoinColumns = {@JoinColumn(name = "MEGUSTA_ID")})
     private Set<MeGusta> meGusta = new HashSet<>();
 
     public Articulo() {
     }
 
-    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico) {
+    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaFKSPG0PYBU1QEPBD9E12Q7H9KYI_INDEX_DCreacion, boolean publico) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.usuario = usuario;

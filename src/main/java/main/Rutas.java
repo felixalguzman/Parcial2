@@ -486,9 +486,9 @@ public class Rutas {
 
             Query query;
             String id = String.valueOf(obtenerUsuarioSesion(request).getId());
-            query = session.createSQLQuery("SELECT * FROM USUARIO WHERE ID NOT IN (SELECT USUARIO2_ID FROM AMIGO WHERE USUARIO1_ID = "+String.valueOf(id)+")\n" +
-                    "                            AND ID NOT IN (SELECT USUARIO1_ID FROM AMIGO WHERE USUARIO2_ID = "+String.valueOf(id)+")\n" +
-                    "                            AND ID != "+String.valueOf(id)+"").addEntity(Usuario.class);
+            query = session.createSQLQuery("SELECT * FROM USUARIO WHERE ID NOT IN (SELECT USUARIO2_ID FROM AMIGO WHERE USUARIO1_ID = " + String.valueOf(id) + ")\n" +
+                    "                            AND ID NOT IN (SELECT USUARIO1_ID FROM AMIGO WHERE USUARIO2_ID = " + String.valueOf(id) + ")\n" +
+                    "                            AND ID != " + String.valueOf(id) + "").addEntity(Usuario.class);
             query.setFirstResult((pagina - 1) * 5);
             query.setMaxResults(5);
             Criteria criteriaCount = session.createCriteria(Usuario.class);
@@ -687,6 +687,48 @@ public class Rutas {
 
             return new ModelAndView(attributes, "albums.ftl");
         }, freeMarkerEngine);
+
+        post("/megusta", (request, response) -> {
+
+            String post = request.queryParams("post");
+
+            Articulo articulo = new CRUD<Articulo>().findByID(Articulo.class, Long.valueOf(post));
+
+            Session session = HibernateUtil.getSession();
+
+            MeGusta meGusta = (MeGusta) session.createQuery("select m from MeGusta m where m.usuario = :id")
+                    .setParameter("id", obtenerUsuarioSesion(request))
+                    .setMaxResults(1)
+                    .uniqueResult();
+
+            if (meGusta == null) {
+
+                meGusta = new MeGusta(obtenerUsuarioSesion(request));
+                articulo.getMeGusta().add(meGusta);
+                new CRUD<MeGusta>().save(meGusta);
+                new CRUD<Articulo>().update(articulo);
+
+            } else {
+
+
+                session.createQuery("delete from MeGusta a where a.id = :id")
+                        .setParameter("id", meGusta.getId())
+                        .executeUpdate();
+
+                session.flush();
+
+
+                System.out.println("existe: " + articulo.getMeGusta().size());
+
+
+            }
+            session.close();
+
+
+            articulo = new CRUD<Articulo>().findByID(Articulo.class, Long.valueOf(post));
+
+            return articulo.getMeGusta().size();
+        });
 
         get("/terminarPerfil", (request, response) -> {
 

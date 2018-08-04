@@ -54,6 +54,9 @@
                     <p>${articulo.cuerpo}</p>
 
 
+
+
+
                 </div>
 
                 <div class="like_comment_area row">
@@ -64,7 +67,7 @@
                     <div class="col s4 updown_btn">
                     <#--<a href="#"><i class="ion-android-arrow-dropdown-circle"></i></a>-->
                     <#--<a href="#"><i class="ion-android-arrow-dropup-circle"></i></a>-->
-                        <a href="#" class="count_n" style="text-align: center">483</a>
+                        <a href="#" class="count_n" style="text-align: center">${articulo.meGusta?size}</a>
                     </div>
                     <div class="col s4 updown_btn comment_c">
                         <a href="/post/${articulo.id}#comentario"><i class="ion-ios-chatboxes-outline"></i></a>

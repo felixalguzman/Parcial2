@@ -20,7 +20,7 @@ public class Foto {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Comentario> comentarioSet = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "foto",fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<MeGusta> meGusta = new HashSet<>();
 
     public Foto() {

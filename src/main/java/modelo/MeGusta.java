@@ -1,6 +1,8 @@
 package modelo;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class MeGusta {
@@ -9,21 +11,26 @@ public class MeGusta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    private Articulo articulo;
+    @ManyToMany(mappedBy = "meGusta")
+    private Set<Articulo> articulo = new HashSet<>();
 
     @ManyToOne
     private Usuario usuario;
 
     @ManyToOne
     private Foto foto;
+
     public MeGusta() {
     }
 
-    public MeGusta(Articulo articulo, Usuario usuario, Foto foto) {
+    public MeGusta(Set<Articulo> articulo, Usuario usuario, Foto foto) {
         this.articulo = articulo;
         this.usuario = usuario;
         this.foto = foto;
+    }
+
+    public MeGusta(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public long getId() {
@@ -34,11 +41,11 @@ public class MeGusta {
         this.id = id;
     }
 
-    public Articulo getArticulo() {
+    public Set<Articulo> getArticulo() {
         return articulo;
     }
 
-    public void setArticulo(Articulo articulo) {
+    public void setArticulo(Set<Articulo> articulo) {
         this.articulo = articulo;
     }
 

@@ -89,6 +89,40 @@
 
                     </div>
 
+                    <script>
+                        function agregarMegusta() {
+
+                            let post = document.getElementById("articulo").value;
+
+
+                            $.ajax({
+                                type: 'POST',
+                                data: {post : post},
+                                url: "/megusta", success: function (data) {
+                                    $('#megustaCant').html(data);
+
+                                }
+                            });
+
+                        }
+                    </script>
+                    <div class="like_comment_area row">
+                        <div class="col s4 btn_floating">
+
+                        </div>
+                        <div class="col s4 updown_btn" style="text-align: center">
+                            <a onclick="agregarMegusta()" style=""><i
+                                                                      class="ion-android-arrow-dropup-circle"></i></a>
+                            <a id="megustaCant" class="count_n">${articulo.meGusta?size}</a>
+                            <input hidden id="articulo" type="text" value="${articulo.id}">
+                        </div>
+
+                        <div class="col s4 updown_btn comment_c">
+
+                        </div>
+
+                    </div>
+
 
                 </div>
 
