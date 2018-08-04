@@ -1,16 +1,13 @@
 package main;
 
 import com.google.gson.Gson;
-import com.sun.org.apache.xml.internal.serializer.Serializer;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.Version;
 import modelo.*;
 import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.annotations.Persister;
 import org.hibernate.criterion.Projections;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.joda.time.DateTime;
@@ -22,8 +19,6 @@ import servicios.db.hibernate.HibernateUtil;
 import servicios.enums.TipoNotificacion;
 import spark.ModelAndView;
 import spark.Request;
-import spark.Request;
-import spark.Response;
 import spark.template.freemarker.FreeMarkerEngine;
 import utilidades.JsonUtilidades;
 import utilidades.UsuarioRest;
@@ -121,14 +116,14 @@ public class Rutas {
 
                     return Articulos;
                 }, JsonUtilidades.json());
-                post("/", ACCEPT_TYPE_JSON, (request, response) -> {
+                post("/", ACCEPT_TYPE_XML, (request, response) -> {
 
                     Articulo articulo= null;
 
                     //verificando el tipo de dato.
                     switch (request.headers("Content-Type")) {
-                        case ACCEPT_TYPE_JSON:
-                            articulo = new Gson().fromJson(request.body(), Articulo.class);
+                        case ACCEPT_TYPE_XML:
+                            articulo = serializer.read(Articulo.class, request.body());
                             new CRUD<Articulo>().save(articulo);
                             break;
                         default:
