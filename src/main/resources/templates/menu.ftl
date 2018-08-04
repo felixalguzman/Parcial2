@@ -55,6 +55,7 @@
                             <li><a href="/perfil/${usuario.id}"><i class="ion-person"></i>Mi perfil</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification
                                 settings</a></li>
+                            <li class="b_b"><a href="/addAmigos/"><i class="ion-ios-person"></i>Agregar Amigos</a></li>
                             <#if usuario.admin >
                              <li class="b_b"><a href="/usuarios/"><i class="ion-ios-person"></i>Usuarios</a></li>
                             </#if>
