@@ -570,8 +570,10 @@ public class Rutas {
 
             } else {
                 System.out.println("entro");
-                query = session.createQuery("select a from Articulo a order by a.id desc");
-
+                String id = String.valueOf(obtenerUsuarioSesion(request).getId());
+                query = session.createSQLQuery("SELECT * FROM ARTICULO A \n"+
+                        "WHERE A.USUARIO_ID IN (SELECT USUARIO2_ID FROM AMIGO B WHERE B.USUARIO1_ID =" + id +")\n" +
+                        "OR A.USUARIO_ID IN (SELECT USUARIO1_ID FROM AMIGO C WHERE C.USUARIO2_ID = " + id +");").addEntity(Articulo.class);
             }
             query.setFirstResult((pagina - 1) * 5);
             query.setMaxResults(5);
