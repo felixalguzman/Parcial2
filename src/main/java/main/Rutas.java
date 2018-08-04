@@ -227,6 +227,17 @@ public class Rutas {
             response.redirect("/");
             return "";
         });
+        post("/agregar/:id2", (request, response) -> {
+            Long u2 = Long.valueOf(request.params("id2"));
+            Usuario usuario1 = obtenerUsuarioSesion(request);
+            Usuario usuario2 = new CRUD<Usuario>().findByID(Usuario.class, u2);
+
+            Date currDate = new Date(Calendar.getInstance().getTime().getTime());
+            Amigo amigo = new Amigo(false, usuario1, usuario2, currDate);
+            new CRUD<Amigo>().save(amigo);
+            response.redirect("/addAmigos/");
+            return "";
+        });
 
         post("/publicar", (request, response) -> {
 
@@ -387,33 +398,6 @@ public class Rutas {
             return "";
         });
 
-        get("/usuarios/", (request, response) -> {
-            Map<String, Object> attributes = new HashMap<>();
-            Session session = HibernateUtil.getSession();
-
-            if (obtenerUsuarioSesion(request) != null) {
-                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
-                        .setParameter("usuario", obtenerUsuarioSesion(request))
-                        .setParameter("leido", false)
-                        .setMaxResults(7).list();
-                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
-                        .setParameter("usuario", obtenerUsuarioSesion(request))
-                        .setParameter("aceptado", false)
-                        .setMaxResults(7).list();
-                attributes.put("list3", amigos);
-
-
-                attributes.put("list2", list);
-
-            }
-
-
-            session.close();
-            attributes.put("usuario", obtenerUsuarioSesion(request));
-
-            return new ModelAndView(attributes, "verUsuarios.ftl");
-        }, freeMarkerEngine);
-
         get("/usuarios/:pag", (request, response) -> {
 
             StringWriter writer = new StringWriter();
@@ -465,6 +449,108 @@ public class Rutas {
 
             return writer;
         });
+
+        get("/usuarios/", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            Session session = HibernateUtil.getSession();
+
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("leido", false)
+                        .setMaxResults(7).list();
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
+                attributes.put("list2", list);
+            }
+
+
+            session.close();
+            attributes.put("usuario", obtenerUsuarioSesion(request));
+
+            return new ModelAndView(attributes, "verUsuarios.ftl");
+        }, freeMarkerEngine);
+
+
+        get("/addAmigos/:pag", (request, response) -> {
+            StringWriter writer = new StringWriter();
+            Template template = configuration.getTemplate("agregarAmigos.ftl");
+            Map<String, Object> attributes = new HashMap<>();
+
+            String p = request.params("pag");
+            int pagina = Integer.parseInt(p);
+
+            Session session = HibernateUtil.getSession();
+
+            Query query;
+            String id = String.valueOf(obtenerUsuarioSesion(request).getId());
+            query = session.createSQLQuery("SELECT * FROM USUARIO WHERE ID NOT IN (SELECT USUARIO2_ID FROM AMIGO WHERE USUARIO1_ID = "+String.valueOf(id)+")\n" +
+                    "                            AND ID NOT IN (SELECT USUARIO1_ID FROM AMIGO WHERE USUARIO2_ID = "+String.valueOf(id)+")\n" +
+                    "                            AND ID != "+String.valueOf(id)+"").addEntity(Usuario.class);
+            query.setFirstResult((pagina - 1) * 5);
+            query.setMaxResults(5);
+            Criteria criteriaCount = session.createCriteria(Usuario.class);
+            criteriaCount.setProjection(Projections.rowCount());
+            Long cant = (Long) criteriaCount.uniqueResult();
+
+
+            List<Usuario> usuarios = query.list();
+
+            attributes.put("list", usuarios);
+            attributes.put("actual", pagina);
+            attributes.put("paginas", Math.ceil(cant / 5f));
+            attributes.put("usuario", obtenerUsuarioSesion(request));
+
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("leido", false)
+                        .setMaxResults(7).list();
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
+
+
+                attributes.put("list2", list);
+
+            }
+
+
+            template.process(attributes, writer);
+
+            session.close();
+
+            return writer;
+
+
+        });
+        get("/addAmigos/", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            Session session = HibernateUtil.getSession();
+
+            if (obtenerUsuarioSesion(request) != null) {
+                List<Notificacion> list = session.createQuery("select n from Notificacion n where n.destino = :usuario and n.leido = :leido")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("leido", false)
+                        .setMaxResults(7).list();
+                List<Amigo> amigos = session.createQuery("SELECT n from Amigo n where n.usuario2 = :usuario and n.aceptado = :aceptado")
+                        .setParameter("usuario", obtenerUsuarioSesion(request))
+                        .setParameter("aceptado", false)
+                        .setMaxResults(7).list();
+                attributes.put("list3", amigos);
+                attributes.put("list2", list);
+            }
+
+
+            session.close();
+            attributes.put("usuario", obtenerUsuarioSesion(request));
+            return new ModelAndView(attributes, "verAmigos.ftl");
+        }, freeMarkerEngine);
 
 
         get("/inicio/:pag", (request, response) -> {

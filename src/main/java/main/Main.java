@@ -1,7 +1,10 @@
 package main;
 
 import modelo.Usuario;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import servicios.db.BootstrapService;
 import servicios.db.hibernate.CRUD;
 import servicios.db.hibernate.HibernateUtil;
@@ -9,6 +12,7 @@ import servicios.db.hibernate.HibernateUtil;
 import java.sql.SQLException;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 
 import static spark.Spark.externalStaticFileLocation;
 import static spark.Spark.staticFiles;
@@ -33,6 +37,8 @@ public class Main {
             new CRUD<Usuario>().save(new Usuario("admin", "admin", "felixlvl@gmail.com", "1234", "admin", Date.from(Instant.now()), true, "user"));
 
         }
+
+
 
         session.close();
 
