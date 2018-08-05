@@ -49,8 +49,7 @@ public class Rutas {
 
     public void manejoRutas() {
 
-        // Seteando el puerto en Heroku
-        port(getHerokuAssignedPort());
+        
 
         File uploadDir = new File("fotos");
         uploadDir.mkdir();
@@ -854,17 +853,6 @@ public class Rutas {
         return "/" + tempFile.getFileName().toString();
     }
 
-    /**
-     * Metodo para setear el puerto en Heroku
-     * 
-     * @return
-     */
-    static int getHerokuAssignedPort() {
-        ProcessBuilder processBuilder = new ProcessBuilder();
-        if (processBuilder.environment().get("PORT") != null) {
-            return Integer.parseInt(processBuilder.environment().get("PORT"));
-        }
-        return 4567; // return default port if heroku-port isn't set (i.e. on localhost)
-    }
+
 
 }

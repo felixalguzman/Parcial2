@@ -29,7 +29,7 @@ $(function () {
 
     var at_config = {
         at: "@",
-        data: "http://localhost:4567/rest/usuarios/",
+        data: "https://drand.me/rest/usuarios/",
         headerTpl: '<div class="atwho-header">Lista de Usuarios<small>&nbsp; ↑&nbsp; ↓&nbsp;</small></div>',
         insertTpl: '@${usuario}',
         displayTpl: "<li>${nombre} ${apellido} <small>${usuario}</small></li>",

@@ -1,10 +1,10 @@
 <#--<link rel="stylesheet" href="../vendors/check-button/switch.css">-->
-<script type="text/javascript" src="http://ichord.github.io/Caret.js/src/jquery.caret.js"></script>
-<script type="text/javascript" src="../../dist/js/jquery.atwho.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/at.js/1.4.0/css/jquery.atwho.min.css">
-<script type="text/javascript" src="../../js/autoComplete.js"></script>
-<script type="text/javascript" src="../../js/cargarArchivo.js"></script>
 
+<script type="text/javascript" src="../dist/js/jquery.atwho.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/at.js/1.4.0/css/jquery.atwho.min.css">
+<script type="text/javascript" src="../js/autoComplete.js"></script>
+<script type="text/javascript" src="../js/cargarArchivo.js"></script>
+<script type="text/javascript" src="../js/jquery.caret.js"></script>
 <script>
     function validar() {
 

@@ -1,6 +1,5 @@
 package modelo;
 
-import java.sql.Blob;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;

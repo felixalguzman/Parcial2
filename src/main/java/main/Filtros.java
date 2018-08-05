@@ -1,8 +1,6 @@
 package main;
 
-import org.jasypt.util.text.StrongTextEncryptor;
-
-import static spark.Spark.*;
+import static spark.Spark.before;
 
 /**
  * Filtros

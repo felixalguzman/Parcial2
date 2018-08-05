@@ -48,7 +48,7 @@ public class Articulo {
     public Articulo() {
     }
 
-    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaFKSPG0PYBU1QEPBD9E12Q7H9KYI_INDEX_DCreacion, boolean publico) {
+    public Articulo(String titulo, String cuerpo, Usuario usuario, Date fechaCreacion, boolean publico) {
         this.titulo = titulo;
         this.cuerpo = cuerpo;
         this.usuario = usuario;
